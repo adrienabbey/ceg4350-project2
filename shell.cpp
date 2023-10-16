@@ -9,7 +9,6 @@
 #include "fs33types.hpp"
 #include <iostream>
 #include <string>
-#include <wait.h>
 
 extern MountEntry *mtab;
 extern VNIN cwdVNIN;
