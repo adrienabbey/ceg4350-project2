@@ -1,0 +1,27 @@
+1. Standard library routine descriptons:
+    fopen: Opens the file of the given filename, returning a FILE stream 
+        object; the access mode can be specified (read, write, etc.)
+    fclose: Closes the specified FILE stream, writing any buffered changes 
+        before doing so; this will return an integer based on success/error.
+    fread: Reads the content of the given FILE stream, storing data read as an 
+        array at the given pointer; the number of elements read and count can 
+        be specified (updating the position of the stream), and will return an 
+        integer of the total bytes successfully read.
+    fwrite: Writes the content of the array at the given pointer to the 
+        specified FILE stream; this works almost identically to fread, using 
+        the size and count parameters (starting from the FILE's existing 
+        position indicator), returning the number of bytes successfully 
+        written.
+    fstat: Provides statistics for the given file descriptor, storing the 
+        results in the specified stat structure pointer (which is defined by 
+        sys/stat.h).
+    fscanf: Reads data from the specified FILE stream, storing them at the 
+        specified pointer according to the format parameters given; returns 
+        the number of bytes successfully read, setting indicators if an error 
+        occurs.
+    fprintf: Writes the specified string pointer to a file, formatting the 
+        content as specified; returns the total number of characters written 
+        if successful, or a negative value if an error occurs.
+    sprintf: Works similarly to printf, storing a formatted string to the 
+        given pointer location; returns the number of successfully written 
+        characters, or a negative value on error.
