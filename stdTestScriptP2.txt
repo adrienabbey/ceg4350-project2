@@ -1,0 +1,22 @@
+# stdTestScriptP0.txt
+!rm -f *.f33 *.o
+mkfs D2
+cp @ReadMe.txt ReadMe.txt
+ls
+inode 1
+inode 2
+cp ReadMe.txt @ReadMe.f33
+!diff ReadMe.f33 ReadMe.txt
+!ls -lisa >> lslisa.f33
+cp @lslisa.f33 lslisalslisalslisa.txt 
+inode 1
+inode 2
+inode 3
+ls
+cp lslisalslisalslisa.txt @lslisa2.f33
+!diff lslisa.f33 lslisa2.f33
+rm ReadMe.txt
+rm NonExistentFile.txt
+ls
+!ls -l *.dsk
+quit
