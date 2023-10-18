@@ -1,6 +1,7 @@
 /*
  * fs33types.hpp of CEG 433/633 File Sys Project
  * pmateti@wright.edu
+ * Additional comments added by Adrien Abbey for Project 2, Oct. 2023
  */
 
 #include <stdio.h>  // not all these are needed every where,
@@ -9,17 +10,29 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+/// @brief This is an unsigned char, which is treated as a number of at least
+// within the 0 to 255 range (depending on bitsize).
+// https://stackoverflow.com/a/87648
 typedef unsigned char byte;
+
+/// @brief Unsigned short int: 0 to 65,535 
 typedef unsigned short int ushort;
+
+/// @brief Unsigned int: 0 to 4,294,967,295
 typedef unsigned int uint;
+
+/// @brief Unsigned long int: 0 to 4,294,967,295 
 typedef unsigned long int ulong;
 
+// Looks like we're using enumeration to define constants for this project?
 enum
 {
   LabelSZ = 15,
   SectorsMAX = 2048,
   BytesPerSectorMAX = 4096
 };
+
+/* Function Declarations*/
 
 uint TODO();
 uint TODO(char *p);
@@ -33,10 +46,15 @@ class FileVolume; // forward declaration
 class SimDisk
 {
 public:
+
+  /* SimDisk's public attributes */
+
   byte name[LabelSZ + 1];
   uint nSectorsPerDisk;
   uint nBytesPerSector;
   uint simDiskNum;
+
+  /* SimDisk's function declarations */
 
   SimDisk(byte *simDiskName, uint diskNumber);
   uint isOK();
