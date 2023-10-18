@@ -1,5 +1,6 @@
 *.o
 *.dsk
+*.f33
 P[0-4]
 test
 testHost.txt
