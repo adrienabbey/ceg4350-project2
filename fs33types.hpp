@@ -2,6 +2,7 @@
  * fs33types.hpp of CEG 433/633 File Sys Project
  * pmateti@wright.edu
  * Additional comments added by Adrien Abbey for Project 2, Oct. 2023
+ *  Reminder to self: header files are where all *declarations* are made.
  */
 
 #include <stdio.h>  // not all these are needed every where,
@@ -15,13 +16,13 @@
 // https://stackoverflow.com/a/87648
 typedef unsigned char byte;
 
-/// @brief Unsigned short int: 0 to 65,535 
+/// @brief Unsigned short int: 0 to 65,535
 typedef unsigned short int ushort;
 
 /// @brief Unsigned int: 0 to 4,294,967,295
 typedef unsigned int uint;
 
-/// @brief Unsigned long int: 0 to 4,294,967,295 
+/// @brief Unsigned long int: 0 to 4,294,967,295
 typedef unsigned long int ulong;
 
 // Looks like we're using enumeration to define constants for this project?
@@ -46,7 +47,6 @@ class FileVolume; // forward declaration
 class SimDisk
 {
 public:
-
   /* SimDisk's public attributes */
 
   byte name[LabelSZ + 1];
@@ -54,7 +54,7 @@ public:
   uint nBytesPerSector;
   uint simDiskNum;
 
-  /* SimDisk's function declarations */
+  /* SimDisk's public function declarations */
 
   SimDisk(byte *simDiskName, uint diskNumber);
   uint isOK();
@@ -64,12 +64,19 @@ public:
   FileVolume *make33fv();
 
 private:
+  /* SimDisk's private function declarations */
+
   int makeDiskImage();
   int openDiskImage(uint mode);
+
+  /* SimDisk's DiskParams class */
 
   class DiskParams
   {
   public:
+    /* SimDisk's DiskParams public fields */
+    /* Note: these are likely defined by diskParams.dat */
+
     uint maxfnm, nInodes, iHeight;
   } diskParams;
 };
