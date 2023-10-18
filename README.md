@@ -2,7 +2,7 @@
 > Note: I decided to build upon my Project 1 files for this.
 ## TODO List:
 1. [ ] ReadMe.txt contains the expected content
-    1. [x] Descriptions of listed standard library routines.
+    1. [x] Descriptions of the following standard library routines: `fopen`, `fclose`, `fread`, `fwrite`, `fstat`, `fscanf`, `fprintf`, and `sprintf`.
     2. [ ] List of 5 *other* standard library routines and 5 system calls used by Project 2.
     3. [ ] In `simdisk.cpp`, why do we need to verify `statBuf.st_size == nSectorsPerDisk * nBytesPerSector`?
     4. [ ] Read [Notes on Programming in C](https://avida.cs.wright.edu/courses/CEG4350/Notes/Rob%20Pike%20Notes%20on%20Programming%20in%20C.html) by Rob Pike.  For five identifiers used in the given source code, either:
@@ -19,6 +19,18 @@
     5. [ ] Type in a `wrdisk` request, followed by a `rddisk` request.  Verify that the results match.
     6. [ ] End the script, saving it as `gdbSession.txt`.
 3. [ ] Additions and Improvements
+    - The following commands are already functional:
+        - `fs33% mkfs disknm`: creates an empty file volume on the simulated disk named `disknm.dsk` (which must be defined in `diskparams.dat`).  
+            - The `maxfnm`, number of inodes, and the inode height are specified in the provided `diskparams.dat` file, which contains multiple possible `disknm` definitions.  
+            - The constructed disk becomes the current disk of the shell.  The height includes the `fileSize` field.
+            - Files can be at most `maxfnm` characters long.  Valid characters are a-z, A-Z, 0-9, hyphen and period.  All other characters are illegal (including spaces, slashes, etc).
+        - `fs33% cp @P0/test0.cpp myfile.txt`: copies `P0/test0.cpp` from the host system's (specified by `@`) current working directory to the current directory inside our shell with the name specified, and prints to `stdout` the inode number of the new file.  If `myfile.txt` already exists, the new content silently replaces it.
+        - `fs33% cp myfile.txt @P0/test1.cpp`: copies `myfile.txt` from the current file volume to `P0/test1.cpp` of the host file system, then prints to `stdout` the inode number of `myfile.txt`.  If `P0/test1.cpp` already exists, it is silently replaced.
+        - `fs33% cp myfile.txt file2.txt`: copies `myfile.txt` of the current file volume to `file2.txt`, then prints to `stdout` the inode of `file2.txt`.  If `file2.txt` already exists, the new content replaces it.
+        - `fs33% ls`: prints a listing of all files in the root directory (as per Linux's `ls -lisa`).
+        - `fs33% rm myfile.txt`: remove the file named `myfile.txt` from the root directory and prints to `stdout` the inode number that file had.  If the file does nto exist, be quiet and print `0`.
+        - `fs33% inode 4`: print the contents of inode numbered 4, if it exists.
+    - Note: there is a second `diskparams.dat` file to test `stdTestScriptP2.txt` with.
     1. [ ] Much of the code provided by this project is functional but not robust.  Improve the code so that it doesn't crash with invalid inputs.  Describe these changes in `improvements.txt`.  Later project phases will replace `TODO` elements of the code with working code.
     2. [ ] Nested Directories: Project 2 involves working with a single volume at a time, no mounting involved.  Implement hierarchical directories, namely the `mkdir`, `rmdir` and `chdir` commands.  Note that this means building from the root directory.
     3. [ ] Linux's `mv` command takes two arguments, which either:
