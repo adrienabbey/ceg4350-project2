@@ -44,3 +44,22 @@
         - `fs33% pwd`: prints the full path name of the current directory.
         - `fs33% ls pnm`: prints the contents of the directory `pnm` in the "long" format, same as `ls -l`.
         - `fs33% inode myfile.txt `: overload of the above command.  First it discovers the i-number of `myfile.txt` located in the current directory, then invokes the `inode` command above.  NOTE: I believe there should be a `inode number` command listed above, which this refers to (and not `ls`).
+
+# Grading Checklist
+- [ ] `ReadMe.txt` exists with the content described in [Project Expectations](https://avida.cs.wright.edu/courses/CEG4350/Projects/4350projects.html) (5 pts)
+- [ ] `testscript.txt` is designed so that all functionality is demonstrated, including robustness (5 pts)
+- [ ] Program successfully navigates `testscript.txt` (5 pts)
+- [ ] `answers.txt` (5 pts)
+- [ ] `gdbSession.txt` (10 pts)
+- [ ] Improvements are correctly implemented and robust (5 pts)
+- [ ] `mkdir dnm` (10 pts)
+- [ ] `chdir pnm` (10 pts)
+- [ ] `rmdir dnm` (10 pts)
+- [ ] `ls dnm` (10 pts)
+- [ ] `mv da db` (where `db` may not exist, but if it does, it's a file) (5 pts)
+- [ ] `mv da db` (where `db` exists, and is a directory; `da` may or may not exist inside `db`) (5 pts)
+- [ ] `mv da db` (where both are path names) (5 pts)
+- [ ] `pwd` (5 pts)
+- [ ] `inode` works with both inode numbers and file names (5 pts)
+- [ ] Bonus: implement `rm -fr dnm` (B25 pts)
+- [ ] Bonus: implmeent `ls -lR dnm` (B25 pts)
