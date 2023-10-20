@@ -25,3 +25,7 @@
     sprintf: Works similarly to printf, storing a formatted string to the 
         given pointer location; returns the number of successfully written 
         characters, or a negative value on error.
+2. List five other standard library routines, and five system calls:
+    NOTE: The instructions state "list", NOT "describe"!
+    Standard Library Routines: memcpy, memset, strcmp, strlen, fgets
+    System Calls: open, read, write, close, creat
