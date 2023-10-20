@@ -34,3 +34,23 @@
     file has the expected file size, which is determined from the number of 
     sectors and bytes per sector.  The st_size is from the fstat standard 
     library routine.
+4. Comments on five identifiers in the project's original code:
+    fv: this is a public field of the Directory class, which points to that 
+        directory's FileVolume.  If this was used only rarely, I'd not find 
+        fault with it, but it's referenced 19 times in directory.cpp.  My main 
+        issue is just how short and non-descript it is, as I saw it several 
+        times glancing through the code and needed to lean on my IDE to show 
+        me where it's defined in order to determine what it is.  I'd rather it 
+        was something more explicit, like "fileVolume" or "parentVolume".
+    SuperBlock: I like this idenitifier, as it's very clear as to what it is.  
+        The class's public fields are also equally clear and concise, with 
+        names like nTotalBlocks, nSecPerBlock, etc.  They're short enough to 
+        not be awkward to work with, but concise enough that there's no 
+        ambiguity as to what they represent.
+    rdwrBlock: I have mixed feelings about this function name.  On one hand, 
+        after looking at the function's code, it makes sense: it either reads 
+        or writes a block.  On the other hand, the name isn't clear enough, as 
+        "rdwr" isn't obvious enough to know from the name alone.  Ultimately, 
+        this is a moot point, as this method is only called by the writeBlock 
+        and readBlock methods immediately following.
+    fbvBlocks, fbvInodes: These are very similar to my earlier comments regarding fv: I had to lean on my IDE to find where these were defined to discover that they are BitVectors that track free blocks and inodes.
