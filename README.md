@@ -3,8 +3,8 @@
 ## TODO List:
 1. [ ] `answers.txt` contains the expected content:
     1. [x] Descriptions of the following standard library routines: `fopen`, `fclose`, `fread`, `fwrite`, `fstat`, `fscanf`, `fprintf`, and `sprintf`.
-    2. [ ] List of 5 *other* standard library routines and 5 system calls used by Project 2.
-    3. [ ] In `simdisk.cpp`, why do we need to verify `statBuf.st_size == nSectorsPerDisk * nBytesPerSector`?
+    2. [x] List of 5 *other* standard library routines and 5 system calls used by Project 2.
+    3. [x] In `simdisk.cpp`, why do we need to verify `statBuf.st_size == nSectorsPerDisk * nBytesPerSector`?
     4. [ ] Read [Notes on Programming in C](https://avida.cs.wright.edu/courses/CEG4350/Notes/Rob%20Pike%20Notes%20on%20Programming%20in%20C.html) by Rob Pike.  For five identifiers used in the given source code, either:
         1. suggest better alternative names and defend why they are better, or
         2. explain why I am comfortable with the names as they are.

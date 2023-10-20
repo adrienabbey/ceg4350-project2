@@ -29,3 +29,8 @@
     NOTE: The instructions state "list", NOT "describe"!
     Standard Library Routines: memcpy, memset, strcmp, strlen, fgets
     System Calls: open, read, write, close, creat
+3. "statBuf.st_size == nSectorsPerDisk * nBytesPerSector" is used when 
+    attempting to open a disk image; it verifies whether or not the existing 
+    file has the expected file size, which is determined from the number of 
+    sectors and bytes per sector.  The st_size is from the fstat standard 
+    library routine.
