@@ -1,0 +1,260 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="keywords" content="filesys">
+<meta name="description" content="No Title">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>CEG433/CEG633 Operating Systems</title>
+</head>
+
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#006f51">
+
+<table border="0" cellpadding="10" cellspacing="10" width="100%">
+  <tbody>
+    <tr>
+      <td width="67%">
+        <table border="0" width="100%">
+          <tbody>
+            <tr>
+              <td width="100%">
+                <h1><b><a href="http://www.cs.wright.edu/~pmateti/Courses/433/">CEG
+        433/633:<br>
+        Operating Systems</a></b></h1>
+              </td>
+            </tr>
+            <tr>
+              <td width="100%">
+                <h2><a href="http://www.wright.edu/~thomas.wischgoll" target="_blank">Thomas Wischgoll</a></h2>
+              </td>
+            </tr>
+            <tr>
+              <td width="100%">
+                <h2>Project Expectations</h2>
+              </td>
+            </tr>
+            <tr>
+              <td width="100%"></td>
+            </tr>
+            <tr>
+              <td width="100%"></td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table bgcolor="#006f51" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="right"></td>
+    </tr>
+  </tbody>
+</table>
+<p>The project for an operating system course typically has at least the
+following dual goals:</p>
+<ul>
+  <li>to make you <i>use</i> an existing OS in a skilled way in building larger
+    programs than you have so far, as well as
+  <li>to make you think about the <i>design</i> of such an OS.</li>
+</ul>
+<p>The following are applicable to all your work (projects, home work, and
+exams) in the course, and will not be repeated in later handouts.</p>
+<h2>Plagiarism</h2>
+<p>These projects must be work done <i>solely by you</i>, except for any of the
+parts I provide.</p>
+<h2>Quality of Code</h2>
+<p>The implementation must be in <tt>C or C++</tt> demonstrable on our <tt>Unix</tt>
+systems.</p>
+<p>Subsequent parts build on the code you write. Make sure your source code <em>quality</em>
+is high. It is a subjective judgment. To be concrete about it, I suggest a few
+specifics below. Follow them vigorously, even if unwillingly. As you become a
+mature programmer, you will (guaranteed ;-) come to appreciate the benefits of
+this rigidity in style.</p>
+<p>Keep the routines (methods), and files small. No routine should exceed, say,
+20 lines (not counting comment lines). No file should exceed, say, 200 lines, or
+4000 bytes. Some times a method is no bigger than a couple of lines. Do not
+hesitate to turn a code segment into a routine/method because it is then going
+to be called just once.</p>
+<p>For every routine/method, carefully document its pre- and post-conditions.
+Caller is expected to satisfy the pre-conditions prior to the call. The method
+is designed and coded assuming that the pre-condition holds. To improve
+robustness, you may want to check the pre-condition, but, it is not expected
+that you do. The caller, upon return, expects that the called routine has
+accomplished what has been described in the post-condition.</p>
+<h2>Clarifications</h2>
+<p>Part of (large) program development is independently, but wisely, deciding 
+what to do for certain &quot;erroneous&quot; situations. Should we ask the professor for 
+what to do for every possible error you can think of? [Answer: No. You think 
+about it. You take a reasonable action. You document this in your source code, 
+and in <code>ReadMe.txt</code>. And, be ready to defend your choice should it be 
+questioned.]&nbsp; Should <code>SimDisk</code>() constructor <code>printf</code> or
+<tt>cout&gt;&gt;</tt> an error message? [No.] When does/should <code>mkSimDisk</code><tt>()</tt> 
+return a zero? [Think.]&nbsp; Remember that one of the goals of CEG 433/633 is to 
+make you think about larger programs. Part of this is to supply missing, but 
+needed, details in the problem description. </p>
+<p>Post all your questions, helpful comments, criticisms, and suggestions
+regarding this project to our channel on the department's <a
+	href="https://discord.gg/pMUMzTt">Discord server</a>. I am
+hoping for a lively discussion leading to good answers and clarifications. <em>Keep
+an eye on this Discord channel.</em></p>
+<h2>Submissions</h2>
+<p>All submissions are done through pilot. The following files, with names <i>exactly</i> as indicated, must always be
+submitted.<br>
+</p>
+<ul>
+  <li><tt>ReadMe.txt</tt>: This file must include (i) your name, and e-mail
+    address, (ii) a listing generated by <tt>ls -l</tt> of the directory
+    containing your project files, (iii) an explanation of how the project was
+    accomplished using the above files, and (iv) highlights both the good points
+    and <i>bugs</i> and problems that it has.&nbsp; In (iii) make sure you are
+    documenting the <em>design</em>, not just coding, of your program.&nbsp;</li>
+  <li><tt>Makefile</tt>: Must have the targets <tt>test</tt>, <tt>$(PROJECT)</tt>,
+    and <tt>clean</tt> properly prepared. The value for <code>PROJECT</code>
+    must change from P1 to P4 as we progress. The <code>Makefile</code> must set<br>
+    <tt>CFLAGS = -c -g -Wall -ansi -pedantic</tt></li>
+  <li><tt>TestScript.txt</tt>: Think about how you will verify that your program
+    is functioning correctly. Note that the <tt>shell</tt> of P1 reads from
+    stdin and writes to stdout/stderr. So, we can prepare a text file <tt>TestScript.txt</tt>
+    of input for our shell and run it as <tt>shell &lt; TestScript.txt </tt>The
+    test run should demonstrate that all the features of the current part are
+    exercised.</li>
+  <li><tt>typescript</tt> of a successful <code>make test</code>. If I <tt>cd</tt>
+    to your directory, and run the command <tt>make test</tt>, a clean, a
+    compilation of all files, a link of all object code files into the
+    executable <tt>$(PROJECT)</tt>, followed by a successful test run should
+    happen.</li>
+  <li>Source code files, with your choice of names. These must have been pretty
+    printed in a standard style. Learn to use<tt> indent -kr.</tt></li>
+</ul>
+<h2>Grading Sheet</h2>
+<p>A typical grading sheet is shown below. This is just a sample and not an actual grading sheet we will use to score your submissions. Each assignment has its own grading sheet at the bottom of the assignment description.&nbsp; We try to read your code.&nbsp;
+But we depend mostly on observed execution of your code.</p>
+<p>All work for this course is expected to be done on a Linux system.
+Our grading of your submitted
+project work includes the execution by us on a current Linux machine.&nbsp;</p>
+<p>Bonus points are awarded in recognition of good work, in addition to the max
+possible points.&nbsp; Quality is subjectively judged.&nbsp; Merely turning in a
+file will not receive full score.&nbsp;Bonus points are used not in &quot;curving&quot; 
+but in possibly pushing an individual student's grade up.</p>
+<p>Subsequent parts build on the code you write. So, make sure your source code <em>quality</em>
+is high.</p>
+<p>Some of the above have a cascading effect.</p>
+<table border="1" width="100%">
+  <tr>
+    <td width="40%">Student</td>
+    <td width="20%">Login</td>
+    <td width="20%">Bonus</td>
+    <td width="20%">Points</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%" border="1">
+  <tbody>
+    <tr>
+      <td><font size="4" width="80%">Item description</font></td>
+      <td><font size="4" width="5%">MaxPts</font></td>
+      <td><font size="4" width="10%">Points</font></td>
+    </tr>
+    <tr>
+      <td>All required files are turned in and appear complete</td>
+      <td>5</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Every thing compiles without errors or warnings</td>
+      <td>5</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>All the source code files are properly indented</td>
+      <td>5</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Builds into a usable executable</td>
+      <td>5</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><code>typescript</code> demonstrates that make test exercises well,
+        and program works</td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><code>cmdsTried.txt </code>shows use of at least 10 different Unix
+        commands</td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><code>invkExplained.txt</code></td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><code>gdbSession.txt</code></td>
+      <td>5</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Multiple Disks</td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Checking the Arguments</td>
+      <td>5</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Performance Measurement</td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Enhancement of the Shell</td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Robustness</td>
+      <td>10</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><b>Total</b></td>
+      <td>100</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<table bgcolor="#006f51" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td align="right"><font color="#ffffff"><!--webbot bot="Timestamp"
+        startspan s-type="EDITED" s-format="%m/%d/%y %I:%M:%S %p" -->09/06/05 04:31:29 PM<!--webbot
+        bot="Timestamp" i-checksum="27311" endspan --></font></td>
+    </tr>
+  </tbody>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td width="71%"><a
+        href="http://www.cs.wright.edu/~pmateti/Courses/433/Top/copyright.html">Copyright ©</a> 2020 <a
+        href="mailto:pmateti@cs.wright.edu?subject=CEG433">pmateti@cs.wright.edu</a>, <a href="mailto:thomas.wischgoll@wright.edu?subject=CEG433">thomas.wischgoll@wright.edu</a></td>
+      <td align="right" width="29%"></td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+
+</html>
