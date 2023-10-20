@@ -1,7 +1,7 @@
 # Project 2: Subdirectories and Moving Files
 > Note: I decided to build upon my Project 1 files for this.
 ## TODO List:
-1. [ ] ReadMe.txt contains the expected content
+1. [ ] `answers.txt` contains the expected content:
     1. [x] Descriptions of the following standard library routines: `fopen`, `fclose`, `fread`, `fwrite`, `fstat`, `fscanf`, `fprintf`, and `sprintf`.
     2. [ ] List of 5 *other* standard library routines and 5 system calls used by Project 2.
     3. [ ] In `simdisk.cpp`, why do we need to verify `statBuf.st_size == nSectorsPerDisk * nBytesPerSector`?
