@@ -12,8 +12,8 @@
 #include <fcntl.h>
 
 /// @brief This is an unsigned char, which is treated as a number of at least
-// within the 0 to 255 range (depending on bitsize).
-// https://stackoverflow.com/a/87648
+/// within the 0 to 255 range (depending on bitsize).
+/// https://stackoverflow.com/a/87648
 typedef unsigned char byte;
 
 /// @brief Unsigned short int: 0 to 65,535
@@ -28,8 +28,13 @@ typedef unsigned long int ulong;
 // Looks like we're using enumeration to define constants for this project?
 enum
 {
+  /// @brief Presumably, defines how long the SimDisk's name can be.
   LabelSZ = 15,
+
+  /// @brief Presumably, the maximum number of sectors a SimDisk can have.
   SectorsMAX = 2048,
+
+  /// @brief Presumably, the maximum size of a sector, in bytes.
   BytesPerSectorMAX = 4096
 };
 

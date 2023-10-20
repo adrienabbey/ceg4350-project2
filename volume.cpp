@@ -108,6 +108,13 @@ File *FileVolume::findFile(byte *leafnm)
 
 /* pre,post:: For youTODO; */
 
+/// @brief Copies a file from the host system to the local file volume.
+/// @param unixFilePath The path of the file being read from on the host
+/// system.  If this file does not exist, abort and return 0.
+/// @param fs33leaf The destination file being written to.  If it already
+/// exists, it is deleted and replaced.
+/// @return Returns the number of bytes written if successful, or 0 if
+/// unsuccessful.
 uint FileVolume::write33file(byte *unixFilePath, byte *fs33leaf)
 {
   int unixFd = open((char *)unixFilePath, O_RDONLY);
@@ -134,6 +141,15 @@ uint FileVolume::write33file(byte *unixFilePath, byte *fs33leaf)
 
 /* pre,post:: For youTODO; */
 
+/// @brief Copies a file from the local file volume to the host system.  The
+/// file created on the host system will have permissions of 0600.
+/// @param fs33leaf The local file being copied from.  If the file does not
+/// exist, no data will be copied (but a blank file will still be created on
+/// the host system).
+/// @param unixFilePath The host system path of the file being written to.  If
+/// the file fails to be created, abort and return 0.
+/// @return Returns the number of bytes successfully written, or 0 if
+/// unsuccessful.
 uint FileVolume::read33file(byte *fs33leaf, byte *unixFilePath)
 {
   int unixFd = creat((char *)unixFilePath, 0600);
