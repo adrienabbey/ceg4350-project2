@@ -1,0 +1,435 @@
+<html>
+<head>
+	<title>CEG4350/CEG5350 - Operating Systems</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+<font face="Helvetica,Arial,sans-serif">
+<table border=0 width=640 cellspacing=0>
+<tr><td width=100% bgcolor="#006f51">&nbsp;</td></tr>
+</table>
+<table border=0 width=640 cellspacing=0>
+<tr><td width=100% bgcolor="#e7a614">&nbsp;</td></tr>
+</table>
+<p>
+<table BORDER=0 CELLSPACING=0 CELLPADDING=3 WIDTH="640">
+<tr>
+	<td><a href="http://www.wright.edu"><img style="border-style: none" src="../../../images/logo_wsu.jpg" width="100" height="55"
+			alt="WSU 2-color logo"></a>
+</td>
+<td width=440>
+<center>
+<p><b><font size=+1 color="#006f51" face="Helvetica,Arial,sans-serif">Welcome to
+<p><i>CEG4350/CEG5350</i> - Operating Systems
+</font></b></center>
+</td>
+<td><a href="http://avida.cs.wright.edu"><img style="border-style: none" src="../../../images/avida-logo-3D-white.png" width="70" height="58"
+		alt="AVIDA"></a>
+</table>
+<p>
+<table border=0 width=640 cellspacing=0>
+<tr><td width=100% bgcolor="#e7a614">&nbsp;</td></tr>
+</table>
+<p>
+
+<font face="Helvetica,Arial,sans-serif">
+
+<table border="0" cellpadding="10" cellspacing="10" width="100%" height="169">
+  <tr>
+    <td width="67%" height="139">
+    <table border="0" width="100%">
+      <tr>
+        <td width="100%">
+        <h3>P2: Subdirectories, and Moving Files</h3>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+        <h4><b><a href="http://avida.cs.wright.edu/courses/CEG4350/">CEG 
+        4350/5350: Operating Systems</a></b></h4>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+        <h4> <b><a href="source.tar.bz2">Download source.tar.bz2</a></b></h4>
+        </td>
+      </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table bgcolor="#006f51" border="0" cellpadding="0" cellspacing="0" 
+width="100%">
+  <tr>
+    <td>&nbsp;</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+</table>
+<p>The project for the current term is to implement (on a simulated disk) a file system based on the design explored in the 
+lectures.&nbsp; This project is divided into four pieces.
+&nbsp; You must read and follow the
+<a href="4350projects.html">Project Expectations</a>.&nbsp; Study the grading 
+sheet given below.</p><p>This is Part 0 of the project for this term.&nbsp; You are expected to study and modify the 
+source code files given in <code>source.tbz</code> and achieve the functionality described below.&nbsp; Do not use source code files 
+of others or even those of mine but from prior terms.&nbsp; </p>
+<p><b>Be Considerate. </b>Do make sure that you are not using up too much space 
+(say &gt; 10 MB) in your home directory.&nbsp; The following will show your disk 
+space usage:&nbsp; <code>du -s ~</code></p>
+
+<h2>1. Studying a Program</h2>
+
+<p>By the time P2 is due, we would have covered the essentials of our
+File Sys project.  
+
+The tar ball <code>source.tbz</code> is a collection of files given so
+that (i) you can get started quickly with our project, and (ii) you can see the style of how larger systems programs are written. Download <code>source.tbz</code> from the link
+above.&nbsp; In a Linux environment, it can be un-tar-ed as follows:&nbsp; <code>tar xvvfj source.tbz</code><p>The functionality of&nbsp; <code>source.tbz</code>&nbsp; is 
+described in <a href="4350P2.html#3.0_What_Is_Given_">What Is Given</a>.  Some details of the code are/were explained in the lectures and in
+<a href="ReadMe.txt">ReadMe.txt</a>. Study the provided source code
+<i>so thoroughly that you could have written it</i>. Then, answer the itemized questions below in a file named
+<code>answers.txt.</code></p>
+
+<ol>
+  <li>The following  are standard library routines:<br>
+    <code>fopen, fclose, fread, fwrite, fstat, fscanf, fprintf,
+sprintf</code><br>Look up their
+functionality in both the Stevens' book and the on-line man
+pages.&nbsp; Describe their functionality briefly, one sentence each,
+in <b>your own words</b>.</li>
+
+  <li>List the names of 5 standard library routines <i>other than the
+above</i>, and 5 system calls <i>used</i> by the code of P2.</li>
+
+<li> In the file
+<code>simDisk.C</code>, what is the point in verifying that
+<code>statBuf.st_size == nSectorsPerDisk * nBytesPerSector</code>?<li> Study the
+	<a style="color: #0000FF; text-decoration: underline" href="../Notes/Rob&#32;Pike&#32;Notes&#32;on&#32;Programming&#32;in&#32;C.html">Notes 
+	on Programming in C</a>, by <a href="http://www.cs.bell-labs.com/who/rob/" style="color: #0000FF; text-decoration: underline">
+	Rob Pike</a>.&nbsp; All of it is &quot;very&quot; applicable to C++ also.&nbsp;&nbsp;  For five identifiers used in the given
+source code, (i) either suggest better alternate names and defend why
+they are better, or (ii) explain why you are comfortable with the
+names as-they-are. </li>
+<li>Write the pre- post conditions for <code><br>uint FileVolume::read33file(byte 
+ *fs33leaf, byte *unixFilePath)</code><br>
+<code>uint FileVolume::write33file(byte *unixFilePath, byte 
+*fs33leaf)</code></li>
+</ol>
+
+<h2>2. Learn to Use GDB</h2>
+
+Coming into the course, you are expected to be comfortable with <code>gdb</code>.
+
+Debugging large programs requires the construction of (extra) observer
+methods.  Using <code>gdb</code> or some other debugger is not as
+effective as invoking observers and studying their output in a
+peaceful place ("under a tree").  Nevertheless, gdb can be useful as a
+last resort, and you must be able to use it well.
+
+<ol>
+  <li>Start <code>script</code>. Make P2 as given. Run our program P2 through gdb.</li>
+  <li>Set a breakpoint at immediately after <code>setArgsGiven(buf, arg, types, nMax);&nbsp; </code>Examine the values of
+  <code>buf, arg, types, nMax.</code></li>
+  <li>Type in a command to our shell to make a file volume. Trace the
+execution from the above breakpoint onwards by single stepping until
+after <code>simDisk</code> is initialized in <code>mkSimDisk</code>().</li>
+  <li>Set a breakpoint at the bottom of the <code>SimDisk</code>
+constructor.&nbsp;Examine the value of&nbsp; <code>diskName</code>.</li>
+  <li>Type in a <code>wrdisk</code> request followed by a <code>rddisk</code>.&nbsp;
+Verify that the results match.</li>
+  <li>End the script.&nbsp; Turn in this script as a file named <code>
+gdbSession.txt</code></li>
+</ol>
+<h2>3. Additions and Improvements</h2>
+<p>Part of large program development is independently, but wisely,
+deciding what to do for certain "erroneous" situations. Should we ask
+the professor for what to do for every possible error you can think
+of?  [Answer: No. You think about it. You take a reasonable
+action. You document this in your source code, and in
+<code>ReadMe.txt</code>. And, be ready to defend your choice should it
+be questioned.]&nbsp; Should <code>SimDisk()</code> constructor
+<code>printf</code> or <tt>cout&gt;&gt;</tt> an error message? [No.]
+When does/should <code>mkSimDisk</code><tt>()</tt> return a zero?
+[Think.]&nbsp; Remember that one of the goals of CEG 433/633 is to
+make you think about larger programs. Part of this is to supply
+missing, but needed, details in the problem description.</p><h3><a name="3.0_What_Is_Given_">3.0 What Is Given</a></h3><p>As given, the files of <code>source.tbz</code> implement the following.&nbsp; </p>
+<dl>
+  <dt><code><strong>fs33% mkfs disknm </strong></code></dt>
+  <dd>creates an initially empty file volume on the simulated
+disk named <code>disknm.dsk</code>.&nbsp; 
+	The <code>maxfnm</code>, the number of i-nodes, and the i-node height are 
+	all given in the 
+  <code>diskparams.dat</code> file 
+	corresponding to the line for <code>disknm</code>.&nbsp; The file volume so
+constructed is the <i>current</i> file volume as used
+below.&nbsp;&nbsp;&nbsp; The height <i>does</i> include the <code>fileSize</code>
+field.&nbsp; If <code>disknm.dsk</code> is not already created, do so now.<br>
+  <br>
+  The names of 433-files are at most <code>maxfnm </code>characters long.&nbsp; Valid 
+	characters in file names are a-z, A-Z, 0-9, hyphen (minus), and period ('.'); all other 
+	characters (spaces, slashes, control characters, etc.) are illegal.&nbsp; <code>maxfnm </code>is given 
+    in <code>diskparams.dat.</code><p>Here is an example <code>diskparams.dat. </code>Lines starting with # are comments.&nbsp;&nbsp; 
+  For clarity, I have lined-up the columns, but the actual <code>diskparams.dat</code> 
+  may not do so.</p>
+  <pre>
+# diskName nBlocks nBytesPerSector maxFnm nInodes iNodeHt
+D1             128             512      8      20       3
+D2            1024             256     16     100       8</pre>
+</dd>
+
+  <dt><strong><code>fs33% cp @P0/test0.cpp myfile.txt </code></strong></dt>
+  <dd>copies <code>P0/test0.cpp</code> from your Linux (indicated by the @ sign) 
+	current working directory to the current (for now, root) directory of the current file volume, as a file named <code>myfile.txt </code>&nbsp;and
+prints to <code>stdout</code> the i-node number of&nbsp; <code>myfile.txt</code>.&nbsp;
+If&nbsp; <code>myfile.txt</code> already exists, the new content silently
+replaces it.&nbsp; (In the cp commands, we need to simultaneously deal with path names of files in 433-file-volume and Linux.&nbsp; 
+  Only in such cases,&nbsp; the latter are prefixed with the @ symbol.)</dd>
+  <dt><strong><code>fs33% cp myfile.txt @P0/test1.cpp</code></strong><b>
+    </b> </dt>
+  <dd>copies <code>myfile.txt </code>of the current file volume to<code>&nbsp;P0/test1.cpp</code> of your Linux current directory and prints to <code>stdout</code>
+the i-node number of&nbsp; <code>myfile.txt</code>.&nbsp; If <code>
+  P0/test1.cpp</code> already exists, it is silently replaced.&nbsp; </dd>
+  <dt><strong><code>fs33% cp myfile.txt file2.txt</code></strong><b> </b></dt>
+  <dd>copies <code>myfile.txt </code>of the current file volume to<code>&nbsp;file2.txt</code>
+of the current volume and prints to <code>stdout</code> the i-node
+number of&nbsp;<code>file2.txt</code>.&nbsp; If&nbsp; <code>file2.txt</code>
+already exists, the new content replaces it.</dd>
+  <dt><strong><code>fs33% ls</code></strong><b> </b></dt>
+  <dd>prints a listing, much like the Unix <code>ls -lisa</code>, of
+all the files in the <code>root</code> directory of the current file
+volume. </dd>
+  <dt><strong><code>fs33% rm myfile.txt</code></strong><b> </b></dt>
+  <dd>remove the file named <code>myfile.txt</code> from the root directory and 
+  prints to <code>stdout</code>
+the i-node number that&nbsp; <code>myfile.txt</code>&nbsp; had.&nbsp;&nbsp; If 
+  the file named <code>myfile.txt</code> does not exist, be quiet and print&nbsp; 0.</dd>
+  <dt><strong><tt>fs33% inode 4</tt></strong> </dt>
+  <dd>prints the contents of i-node numbered 4,&nbsp; if it exists, of the current file volume. </dd>
+</dl>
+<p>Here is a <a href="stdTestScriptP2.txt">stdTestScriptP2.txt</a>.&nbsp; Use it as in <code>./P2 &lt; stdTestScriptP2.txt </code>
+with the above <code>diskparams.dat</code> as well as with <a href="diskParams.dat">this</a> one.</p>
+<h3>3.1 Improvements</h3>
+
+
+<p>You will find that P2, as given, is "functional" but fragile (not robust).&nbsp; Improve it so that it is crash-proof no matter what inputs 
+are given. Describe the changes you made in a file named <code>improvements.txt.&nbsp;
+</code>In later project phases, we (you and I) will replace invocations of TODO by working code.<code> </code></p>
+<h3>3.2 Nested Directories</h3>
+<p>This P2 deals with only one file volume at a time.&nbsp; No mounting is 
+    involved.&nbsp; Thus, we have only one file volume to deal with at 
+     any time.&nbsp; Our goal in this part of the project is to add hierarchical 
+directories.&nbsp; Our shell should now have <code>mkdir</code>, <code>rmdir</code> 
+    and <code>chdir</code> commands.&nbsp; It must, of course, have a
+single anonymous directory that is the <i>root</i>.</p>
+<h3>3.3 Moving Files</h3>
+<p>Unix command <code>mv</code> does two things: (i) when the last argument given is a directory already existing, it moves the 
+files or directories given in the rest of the arguments from where they are into this target directory, or (ii) renames the first 
+argument file or directory into the second argument.&nbsp; Look up the man page for more details.</p>
+<h3>3.4 A Simple Test Session</h3>
+<p> <i>Only</i> the additional elements compared to the given P2 are described below.&nbsp;&nbsp; Add 
+these appropriately to the <code>test script</code>.&nbsp; Our path name syntax is 
+the same as Unix path names.&nbsp;&nbsp; Obviously, 
+not every arbitrary string is a valid path or name.&nbsp; Also, the dot and the 
+dot-dot are not permissible as arguments in some contexts below.&nbsp; 
+Nevertheless these commands must be robust.&nbsp;&nbsp; In the following, all 
+meta-variable names that end in <code>pnm</code> are pathnames that are <i>either</i> 
+relative to the current directory <i>or</i> are full/absolute pathnames.</p>
+<dl>
+<dl>
+  <dt><strong><tt>fs33% mkdir dnm</tt></strong></dt>
+  <dd>creates a new empty directory named <code>dnm</code> in the <i>current</i>
+	<i>directory</i>, and prints its i-node number.&nbsp; If a file or directory named
+  <code>dnm</code> already exists in the current directory, it creates nothing 
+  new and returns 0.&nbsp;&nbsp;The i-node now needs to have a field that indicates that 
+  it is or is not a directory.&nbsp; Assume that dnm does not contain slashes.</dd>
+  <dt><strong><tt>fs33% rmdir dnm</tt></strong> </dt>
+  <dd>If the directory <code>dnm</code> is empty, deletes it.&nbsp; If <code>dnm</code> 
+  is non-empty, no change is made in the file system. In either case, it prints 
+  the number of directory entries in <code>dnm</code> (not counting the dot and 
+  dot-dot).</dd>
+  <dt><tt><strong>fs33% mv da db</strong></tt></dt>
+  <dd>The <code>da</code> is either a normal file or a directory. If <code>da</code> 
+  does not exist, return 0 and nothing is altered in the file volume.&nbsp; If
+  <code>db</code> does not exist in the current directory, da is renamed as
+  <code>db</code>.&nbsp; If <code>db</code> is an existing directory&nbsp; in 
+  the current directory, the <code>da</code> is moved (along with all its 
+  contents) inside <code>db</code> as a subdirectory of <code>db</code>.&nbsp; 
+  If <code>db</code> is an existing but ordinary file, return 0. Carefully 
+  consider if <code>da</code> and <code>db</code> can be pathnames.</dd>
+  <dt><strong><tt>fs33% chdir pnm</tt></strong> </dt>
+  <dd>changes the current directory to <b>pnm</b>.&nbsp;&nbsp; If it begins with 
+  slash, it is an absolute path name. and the new current directory is pnm.&nbsp; 
+  If <code>pnm</code> does not begin with a slash, the new current directory is
+  <code>pnm</code> relative to the present current directory.&nbsp; In either 
+  case, print the absolute full path name of the new current directory.&nbsp;&nbsp; 
+  Current directory is initially established as the root of a newly created/ 
+  found file volume.</dd>
+  <dt><strong><tt>fs33% pwd</tt></strong> </dt>
+  <dd>prints the full path name of current directory.&nbsp;&nbsp;</dd>
+  <dt><strong><tt>fs33% <code>ls</code></tt><code> pnm</code></strong></dt>
+  <dd>prints the contents of directory <code>pnm</code> in the &quot;long&quot; 
+  format as in Unix <code>ls -l.</code></dd>
+  <dt><strong><tt>fs33% inode myfile.txt</tt></strong> </dt>
+  <dd>is an overload of the above command.&nbsp; It first discovers the i-number 
+  of file <code>myfile.txt</code>&nbsp; located in the current directory of the 
+  current volume and then invokes the <code>inode</code> command above.</dd>
+</dl>
+</dl>
+<h2>4. Turn In</h2>
+<p> All projects need to be submitted via <a href="https://pilot.wright.edu">
+Pilot</a>.
+&nbsp;</p>
+<hr size="4">
+<table border="0" cellpadding="10" cellspacing="10" width="100%">
+  <tr>
+    <td width="67%">
+    <table border="0" width="100%">
+      <tr>
+        <td width="100%">
+        <h3><a name="Grading Sheet for Part 2">Grading Sheet for&nbsp;</a><br>
+    <b><a href="http://www.cs.wright.edu/~pmateti/Courses/4350/">CEG 4350/5350:
+    Operating Systems</a></b><br>
+        P2: Subdirectories, and Moving Files</h3>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">Instructor = 
+<a href="mailto:thomas.wischgoll@wright.edu?subject=CEG4350"> Thomas Wischgoll</a>;&nbsp;
+        </td>
+      </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" colspan="2">Extra credit points are awarded in recognition of good work and 
+		extra work, in addition to the max possible points.&nbsp; Quality is 
+		subjectively judged.&nbsp; Merely turning in a file will not receive 
+		full score.&nbsp; Some items have a cascading effect.</td>
+  </tr>
+</table>
+<table width="100%" border="1">
+  <tr>
+    <td><font size="4" width="80%">Item description</font></td>
+    <td align="right"><font size="4" width="5%">Max</font></td>
+    <td align="right"><font size="4" width="10%">Points</font></td>
+  </tr>
+  <tr>
+      <td><code>ReadMe.txt</code> exists with content as described in <a
+ href="4350projects.html">Project Expectations</a></td>
+      <td align="right">5</td>
+      <td align="right">&nbsp;</td>
+    </tr>
+  <tr>
+    <td><code><strong><i>Your</i> testscript.txt </strong></code>is designed so that all the functionality 
+    is demonstrated, including robustness.<i> </i></td>
+    <td align="right">5</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Your program successfully navigates your own<code><b> testscript.txt.</b></code>&nbsp; 
+    (<i> If</i> yours is too simple, we may run it through our script that you 
+    will get to see only after the due date.)</td>
+    <td align="right">5</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+      <td><code>answers.txt</code></td>
+      <td align="right">5</td>
+      <td>&nbsp;</td>
+    </tr>
+  <tr>
+      <td><code>gdbSession.txt</code></td>
+      <td align="right">10</td>
+      <td>&nbsp;</td>
+    </tr>
+  <tr>
+      <td>Improvement</td>
+      <td align="right">5</td>
+      <td>&nbsp;</td>
+    </tr>
+  <tr>
+    <td><b><code>mkdir dnm</code></b> </td>
+    <td align="right">10</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><code><b>chdir</b></code><b><code> pnm</code></b> </td>
+    <td align="right">10</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><code><b>rmdir</b></code><b><code> dnm</code></b> </td>
+    <td align="right">10</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><code><b>ls</b></code><b><code> dnm </code></b></td>
+    <td align="right">10</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><tt><code><strong>mv da db</strong></code></tt><code><strong> </strong></code>(db may not exist, but if it does, it is an ordinary 
+    file)</td>
+    <td align="right">5</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><tt><code><strong>mv da db</strong></code></tt><code><strong> </strong></code>(db exists, and is a directory; da may or may not 
+    exist inside db)</td>
+    <td align="right">5</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><tt><code><strong>mv da db</strong></code></tt><code><strong> </strong></code>(both are path names)</td>
+    <td align="right">5</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><code><strong>pwd</strong></code> </td>
+    <td align="right">5</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="19"><code><b>inode</b></code> printing for both i-numbers and 
+    file names</td>
+    <td align="right" height="19">5</td>
+    <td align="right" height="19">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Bonus points 25, if you implement <code>rm -fr</code> directory-name (Look up: <code>man rm</code>)</td>
+    <td align="right">B25</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Bonus points 25, if you implement <code>ls -lR</code> directory-name (Look up: <code>man ls</code>)</td>
+    <td align="right">B25</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Files were not submitted using <code>pilot</code> = minus 10 
+    points</td>
+    <td align="right">-10</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>Total</b></td>
+    <td align="right">100</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+</table>
+<table cellspacing="0" cellpadding="0" width="100%" bgcolor="#006f51" 
+border="0">
+  <tr>
+    <td align="right">&nbsp;</td>
+  </tr>
+</table>
+<table cellspacing="0" cellpadding="0" width="100%" border="0">
+  <tr>
+    <td width="71%">Copyright ©
+    2020 <a href="mailto:pmateti@wright.edu?subject=CEG4350">pmateti@wright.edu</a>, <a href="mailto:thomas.wischgoll@wright.edu?subject=CEG4350">thomas.wischgoll@wright.edu</a></td>
+    <td align="right" width="29%"><br>
+    </td>
+  </tr>
+</table>
+
+</body>
+
+</html>
