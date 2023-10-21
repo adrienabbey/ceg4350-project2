@@ -65,3 +65,26 @@
         the project documentation as well, where there's a lot of references 
         that never got updated (such as keeping home directories under 10 MB, 
         the old class numbers, project files ending in .c, etc.).
+5. Explain pre/post-conditions for:
+        NOTE: pre/post condition commenting is new and novel to me, as most 
+        classes seem happy that students write comments at all.  I've been 
+        leaning on my IDEs Doxygen generation feature to create a basic 
+        outline that I fill out myself, which the IDE then uses to provide 
+        tooltips.  I've included those comments in my code.
+        NOTE: I had to research what pre/post conditions are: 
+            https://courses.cs.washington.edu/courses/cse143/16au/style/commenting-preconditions-and-postconditions.html
+        "Preconditions are any conditions that the caller, or client of the 
+            method must fulfill in order to successfully use your method."
+        "Postconditions are any conditions that you, the writer of the method, 
+            will guarantee to be true after the method has finished running."
+    uint FileVolume::read33file(byte *fs33leaf, byte *unixFilePath):
+        Pre-conditions: This method needs a valid host system file path, and 
+            an existing file on the internal file system.
+        Post-conditions: Returns the number of bytes successfully written.  A 
+            return of 0 means nothing was written.
+    uint FileVolume::write33file(byte *unixFilePath, byte *fs33leaf):
+        Pre-conditions: Must give a valid path to an existing file on the host 
+            system.
+        Post-conditions: If a valid local file path exists, it is 
+            overwritten.  Returns the number of bytes written to the local 
+            file system, if any.
