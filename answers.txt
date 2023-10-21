@@ -53,4 +53,15 @@
         "rdwr" isn't obvious enough to know from the name alone.  Ultimately, 
         this is a moot point, as this method is only called by the writeBlock 
         and readBlock methods immediately following.
-    fbvBlocks, fbvInodes: These are very similar to my earlier comments regarding fv: I had to lean on my IDE to find where these were defined to discover that they are BitVectors that track free blocks and inodes.
+    fbvBlocks, fbvInodes: These are very similar to my earlier comments 
+        regarding fv: I had to lean on my IDE to find where these were defined 
+        to discover that they are BitVectors that track free blocks and 
+        inodes.  Each of these has only a few references throughout the 
+        project, so a longer, more descript name would not be inappropriate.
+    fs33types.hpp, sh33%, write433disk, and anything else with 33 in it: My 
+        best guess is, 33 refers to the old class numbers (433/633).  I 
+        suppose it made sense to include the numbers back in the day, but the 
+        class number changed a long time ago.  This holds true for a lot of 
+        the project documentation as well, where there's a lot of references 
+        that never got updated (such as keeping home directories under 10 MB, 
+        the old class numbers, project files ending in .c, etc.).
