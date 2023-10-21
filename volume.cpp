@@ -106,8 +106,6 @@ File *FileVolume::findFile(byte *leafnm)
   return newf;
 }
 
-/* pre,post:: For youTODO; */
-
 /// @brief Copies a file from the host system to the local file volume.
 /// @param unixFilePath The path of the file being read from on the host
 /// system.  If this file does not exist, abort and return 0.
@@ -138,8 +136,6 @@ uint FileVolume::write33file(byte *unixFilePath, byte *fs33leaf)
   close(unixFd);
   return nBytesWritten;
 }
-
-/* pre,post:: For youTODO; */
 
 /// @brief Copies a file from the local file volume to the host system.  The
 /// file created on the host system will have permissions of 0600.
