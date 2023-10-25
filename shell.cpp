@@ -223,9 +223,24 @@ void doInode(Arg *a)
   wd->fv->inodes.show(ni);
 }
 
+/// @brief Create a directory with the given name in the current local 
+/// directory, then print the new directory's inode number.  If a directory of 
+/// the same name already exists in the current local directory, create 
+/// nothing and return `0`.  Note that this includes modifications to inodes 
+/// to indicate whether its a directory or not.  Assume that the given 
+/// argument does NOT contain slashes.
+/// @param a The name of the directory to be created.
 void doMkDir(Arg *a)
 {
   TODO("doMkDir");
+
+  // Check to see if the directory already exists:
+
+  // Create a new directory (file):
+
+  // Create a reference in the current directory to list the new subdirectory:
+
+  // Print the inode of the new directory:
 }
 
 void doChDir(Arg *a)
