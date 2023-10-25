@@ -12,6 +12,12 @@
  * file-size field, iHeight >= 3 ;; post:: Construct the inode array
  * on the disk. */
 
+/// @brief Initializes the inode array on the given file volume.
+/// @param pfv A pointer to the file volume.
+/// @param nBegin Where the inodes begin (sector?).
+/// @param nInodes The total number of inodes to create.
+/// @param iHeight The total height of the superBlock.
+/// @return The total number of inodes (as specified by nInodes).
 uint Inodes::create(FileVolume *pfv, uint nBegin, uint nInodes, uint iHeight)
 {
   uint iWidth = sizeof(uint); // assumption
