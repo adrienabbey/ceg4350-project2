@@ -58,6 +58,13 @@ int toNum(const char *p)
   return (p != 0 && '0' <= *p && *p <= '9' ? atoi(p) : 0);
 }
 
+/// @brief Creates a new simulated disk of the given `name`.  This name must 
+/// be defined in `diskparams.dat`.
+/// @param name The name the simulated disk.  If the `name` is defined in 
+/// `diskparams.dat`, a new simulated disk using the parameters from that file 
+/// is created.
+/// @return Returns a pointer to the new SimDisk object, if successful.  
+/// Otherwise, returns a `0` pointer.
 SimDisk *mkSimDisk(byte *name)
 {
   SimDisk *simDisk = new SimDisk(name, 0);
@@ -121,6 +128,10 @@ void doEcho(Arg *a)
          a[1].s, a[1].u, a[2].s, a[2].u, a[3].s, a[3].u);
 }
 
+/// @brief Creates an empty file volume on the simulated disk `a`.dsk.  The 
+/// name must match one of the parameters listed in `diskparams.dat`.
+/// @param a The name of the simulated disk being created.  This must be 
+/// already defined in the `diskparams.dat` file.
 void doMakeFV(Arg *a)
 {
   SimDisk *simDisk = mkSimDisk((byte *)a[0].s);
