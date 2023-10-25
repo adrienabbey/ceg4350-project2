@@ -166,6 +166,12 @@ void doCopy33(byte *from, byte *to)
   printf("copy33file(%s, %s) == %d\n", to, from, r);
 }
 
+/// @brief Copies a file from the given source file to the destination file 
+/// name given.  At most one of these files can be prepended with `\@`, 
+/// denoting a host system file.
+/// @param a The arguments given.  These arguments should be a `source file` 
+/// and `destination`.  At most one of these arguments can start with `\@`, 
+/// which denotes a host system source file or destination.
 void doCopy(Arg *a)
 {
   byte *to = (byte *)a[0].s;
