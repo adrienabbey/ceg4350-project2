@@ -12,12 +12,12 @@
         - `uint FileVolume::read33file(byte *fs33leaf, byte *unixFilePath)`
         - `uint FileVolume::write33file(byte *unixFilePath, byte *fs33leaf)`
 2. [ ] Learn to use GDB
-    1. [ ] Start `script` and `make` P2 as given, running `P2` through `GDB`
-    2. [ ] Set a breakpoint immediately after `setArgsGiven(buf, arg, types, nMax);`.  Examine the values of `buf`, `arg`, `types`, and `nMax`.
-    3. [ ] Use our shell to make a file volume.  Trace the execution from the above breakpoint by single stepping until after `simDisk` is initialized by `mkSimDisk()`.
-    4. [ ] Set a breakpoint at the bottom of the `SimDisk` constructor.  Examine the value of `diskName`.
-    5. [ ] Type in a `wrdisk` request, followed by a `rddisk` request.  Verify that the results match.
-    6. [ ] End the script, saving it as `gdbSession.txt`.
+    1. Start `script` and `make` P2 as given, running `P2` through `GDB`
+    2. Set a breakpoint immediately after `setArgsGiven(buf, arg, types, nMax);`.  Examine the values of `buf`, `arg`, `types`, and `nMax`.
+    3. Use our shell to make a file volume.  Trace the execution from the above breakpoint by single stepping until after `simDisk` is initialized by `mkSimDisk()`.
+    4. et a breakpoint at the bottom of the `SimDisk` constructor.  Examine the value of `diskName`.
+    5. Type in a `wrdisk` request, followed by a `rddisk` request.  Verify that the results match.
+    6. End the script, saving it as `gdbSession.txt`.
 3. [ ] Additions and Improvements
     - The following commands are already functional:
         - `fs33% mkfs disknm`: creates an empty file volume on the simulated disk named `disknm.dsk` (which must be defined in `diskparams.dat`).  
