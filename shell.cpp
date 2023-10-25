@@ -58,8 +58,9 @@ int toNum(const char *p)
   return (p != 0 && '0' <= *p && *p <= '9' ? atoi(p) : 0);
 }
 
-/// @brief Creates a new simulated disk of the given `name`.  This name must 
-/// be defined in `diskparams.dat`.
+/// @brief Attempts to load a simulated disk with the given name, or creates a 
+/// new one if it does not already exist.  The given name must be defined in 
+// `diskParams.dat`, which defines the disk's attributes.
 /// @param name The name the simulated disk.  If the `name` is defined in 
 /// `diskparams.dat`, a new simulated disk using the parameters from that file 
 /// is created.
@@ -89,6 +90,13 @@ void doMakeDisk(Arg *a)
   delete simDisk;
 }
 
+/// @brief Writes a string to the specified sector of the current local disk.  
+/// The string is repeated to fill the disk sector completely.
+/// @param a `a[0]` is the disk name to be used.  If it already exists, it's 
+/// loaded.  If not, it's created. See `mkSimDisk` for details.
+/// `a[1]` is the sector number of the current local disk to be written to.
+/// `a[2]` is the string to be written to the specified sector.  If no string is 
+/// specified, "CEG433/633/Mateti" will be used instead.
 void doWriteDisk(Arg *a)
 {
   SimDisk *simDisk = mkSimDisk((byte *)a[0].s);

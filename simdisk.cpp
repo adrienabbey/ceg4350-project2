@@ -122,6 +122,10 @@ uint SimDisk::readSector(uint nSector, void *p)
   return nBytesPerSector;
 }
 
+/// @brief Writes the given buffer to the specified sector of the simulated disk.
+/// @param nSector The sector number of the simulated disk to write to.
+/// @param p The buffer content to be written to the specified sector.
+/// @return Returns the sector size in bytes if a write is successful, 0 if not.
 uint SimDisk::writeSector(uint nSector, void *p)
 {
   if (p == 0 || nSector >= nSectorsPerDisk)
