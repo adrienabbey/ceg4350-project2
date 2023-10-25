@@ -245,6 +245,7 @@ void doMkDir(Arg *a)
   // Check to see if the directory already exists:
 
   // Create a new directory (file):
+  //   Note: the inode type should be iTypeDirectory = 2
 
   // Create a reference in the current directory to list the new subdirectory:
 

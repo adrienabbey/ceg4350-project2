@@ -5,8 +5,8 @@
 
 #include "fs33types.hpp"
 
-#define xType (fv->superBlock.iHeight - 2)
-#define xFileSize (fv->superBlock.iHeight - 1)
+#define xType (fv->superBlock.iHeight - 2)     // Defines the location in the superBlock which defines the iNode type
+#define xFileSize (fv->superBlock.iHeight - 1) // Defines the location in the SuperBlock which records the file size
 
 /* pre:: fv->superBlock partially initialized, iHeight includes
  * file-size field, iHeight >= 3 ;; post:: Construct the inode array
@@ -110,12 +110,24 @@ uint Inodes::getFree()
 /* pre:: 0 < in < nInodes ;; post:: Return the inode entry at index x
  * of inode numberd in. */
 
+/// @brief Return the inode entry at index `x` of the inode number `in`.
+/// @param in The number of the inode being checked.
+/// @param x The index value being checked.
+/// @return Returns the value of the given index of the given inode.
 uint Inodes::getEntry(uint in, uint x)
 {
   uint *pin = getInode(in, 0);
   return pin[x];
 }
 
+/// @brief Sets the given inode's index to the specified type.
+/// @param in The number of the inode being modified.
+/// @param x The index of the value being modified.
+/// @param tp An integer value representing the desired type for the given inode.
+///   iTypeOrdinary = 1,
+///   iTypeDirectory = 2,
+///   iTypeSoftLink = 3
+/// @return Returns the indexed value of the given inode.
 uint Inodes::setEntry(uint in, uint x, uint tp)
 {
   uint *pin = getInode(in, 0);
@@ -124,6 +136,12 @@ uint Inodes::setEntry(uint in, uint x, uint tp)
   return pin[x];
 }
 
+/// @brief Returns the file type of the specified inode number.
+/// @param in The number of the inode being checked.
+/// @return Returns the integer value representing the file type of the given inode.
+///   iTypeOrdinary = 1,
+///   iTypeDirectory = 2,
+///   iTypeSoftLink = 3
 uint Inodes::getType(uint in)
 {
   return getEntry(in, xType);
