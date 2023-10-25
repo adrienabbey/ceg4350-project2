@@ -89,6 +89,9 @@ byte *Directory::nameOf(uint in)
  * leafnm.  Return inumber.  Callers wish to use dirf and dirEntry
  * further; do not do namesEnd(). */
 
+/// @brief Searches the current directory for the given file name.
+/// @param leafnm The file name to search for.
+/// @return Returns the inode number if the file is found.  Otherwise, returns 0.
 uint Directory::setDirEntry(byte *leafnm)
 {
   if (leafnm == 0 || leafnm[0] == 0)
@@ -106,6 +109,9 @@ uint Directory::setDirEntry(byte *leafnm)
   return result;
 }
 
+/// @brief Search the current directory for the given file name.
+/// @param leafnm The file name to search for.
+/// @return If the given file name is found, return the inode number of that file.  Otherwise, returns 0.
 uint Directory::iNumberOf(byte *leafnm)
 {
   uint in = setDirEntry(leafnm);
