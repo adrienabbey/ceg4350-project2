@@ -195,6 +195,8 @@ void doCopy(Arg *a)
   }
 }
 
+/// @brief Print a listing of the current local directory's contents, much like `ls -lisa` would.
+/// @param a Arguments, if any.  These are likely ignored.
 void doLsLong(Arg *a)
 {
   printf("\nDirectory listing for disk %s, cwdVNIN == 0x%0lx begins:\n",
@@ -203,12 +205,17 @@ void doLsLong(Arg *a)
   printf("Directory listing ends.\n");
 }
 
+/// @brief Deletes the given file from the current local directory.
+/// TODO: Handle local folders like `rmdir`?
+/// @param a The file to be deleted from the current local directory.
 void doRm(Arg *a)
 {
   uint in = wd->fv->deleteFile((byte *)a[0].s);
   printf("rm %s returns %d.\n", a[0].s, in);
 }
 
+/// @brief Prints out the contents of the given inode number, if any.
+/// @param a The inode number to be printed.
 void doInode(Arg *a)
 {
   uint ni = a[0].u;
