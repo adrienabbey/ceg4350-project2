@@ -262,6 +262,12 @@ void doMkDir(Arg *a)
   printf("The new directory inode is: %d\n", newDir);
 }
 
+/// @brief Change the current directory to the given directory or path.  If
+/// the argument begins with a slash, it's an absolute name.  If it does not,
+/// it's relative to the current working directory.  In either case, print the
+/// absolute path name of the new current working directory.
+/// @param a The directory to change to, either as a relative path or as an
+/// absolute path.
 void doChDir(Arg *a)
 {
   TODO("doChDir");
