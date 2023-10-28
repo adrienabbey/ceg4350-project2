@@ -180,10 +180,13 @@ uint Directory::ls()
   return lsPrivate(nInode, 1); // 1 ==> printf it
 }
 
-/// @brief Creates a new file or folder in the this directory, if it does not already exist.
+/// @brief Creates a new file or folder in the this directory, if it does not
+/// already exist.
 /// @param leafnm Name of the file or folder to be created.
-/// @param dirFlag If true, creates a new directory.  Otherwise, creates an ordinary file.
-/// @return Returns the inode number of either the new file/folder, or the inode number of an existing file/folder.
+/// @param dirFlag If true, creates a new directory.  Otherwise, creates an
+/// ordinary file.
+/// @return Returns the inode number of either the new file/folder, or the
+/// inode number of an existing file/folder.
 uint Directory::createFile(byte *leafnm, uint dirFlag)
 {
   uint in = iNumberOf(leafnm);
