@@ -272,7 +272,7 @@ void doMkDir(Arg *a)
 void doChDir(Arg *a)
 {
   // Create a working directory variable to manipulate:
-  Directory *workingDirectory = wd;
+  Directory *workingDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
 
   // Turn the input argument into a char string to work with:
   char *path = a[0].s;             // Note: Ignoring extra arguments.
@@ -288,7 +288,7 @@ void doChDir(Arg *a)
     std::cout << "  Absolute path." << std::endl;
 
     // Absolute path.  Find the directory.
-    
+
     // Start at root:
     workingDirectory = fv->root;
     pathString = "";
@@ -317,8 +317,7 @@ void doChDir(Arg *a)
       {
         // Directory exists, switch to it:
         std::cout << "  Changing the working directory." << std::endl;
-        delete workingDirectory;
-        workingDirectory = new Directory(fv, nextDir, nextDir);
+        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
 
         // Update the path string:
         pathString = pathString + "/" + pathPart;
