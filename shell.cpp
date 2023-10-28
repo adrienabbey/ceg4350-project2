@@ -271,6 +271,43 @@ void doMkDir(Arg *a)
 void doChDir(Arg *a)
 {
   TODO("doChDir");
+
+  // Create a working directory variable to manipulate:
+  Directory *workingDirectory = wd;
+
+  // Turn the input argument into a char string to work with:
+  char *path = a[0].s; // Note: Ignoring extra arguments.
+
+  // Check if relative or absolute path:
+  if (path[0] == '/')
+  {
+    // Absolute path.  Find the directory.
+
+    // Start at root:
+    workingDirectory = fv->root;
+
+    // Start splitting the path into usable parts:
+    char *pathPart = strtok(path, "/");
+    // NOTE: Since this is an absolute path, the first token is useless:
+    pathPart = strtok(NULL, "/");
+
+    // Search through each path part, looking for valid directories:
+    while (pathPart != NULL)
+    {
+      // Check if the next path part exists:
+      
+    }
+  }
+  else
+  {
+    // Relative path.  Find the directory:
+  }
+
+  // If not found, print an error and return:
+
+  // If found, make it the current working directory:
+
+  // Print out the new directory:
 }
 
 void doPwd(Arg *a)
