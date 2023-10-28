@@ -288,31 +288,35 @@ void doChDir(Arg *a)
     std::cout << "  Absolute path." << std::endl;
 
     // Absolute path.  Find the directory.
-    pathString = "";
-
+    
     // Start at root:
     workingDirectory = fv->root;
+    pathString = "";
 
     // Start splitting the path into usable parts:
     char *pathPart = strtok(path, "/");
-    std::cout << "  pathPart 1: " << pathPart << std::endl;
+    std::cout << "  initial pathPart: " << pathPart << std::endl;
 
     // If the pathPart is NULL, it means the user wants root:
     if (pathPart == NULL || pathPart == 0)
     {
       wd = fv->root;
       pathString = "/";
-      printf("  New directory is: %s", pathString.c_str());
+      std::cout << "  null/zero pathPart is: " << pathPart << std::endl;
+      printf("  null/zero New directory is: %s\n", pathString.c_str());
     }
 
     // Search through each path part, looking for valid directories:
-    while (pathPart != NULL)
+    while (pathPart != NULL || pathPart != 0)
     {
+      std::cout << "  Attempting to change to a subdirectory." << std::endl;
       // Check if the next path part exists:
       uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+      std::cout << "  next directory inode is: " << nextDir << std::endl;
       if (nextDir != 0)
       {
         // Directory exists, switch to it:
+        std::cout << "  Changing the working directory." << std::endl;
         delete workingDirectory;
         workingDirectory = new Directory(fv, nextDir, nextDir);
 
@@ -325,16 +329,17 @@ void doChDir(Arg *a)
       else
       {
         // The path was not found, invalid path, abort:
-        printf("Invalid path.");
+        printf("Invalid path.\n");
         return;
       }
     }
 
     // Path found.  Set the new working directory:
     wd = workingDirectory;
+    wdPath = pathString;
 
     // Print out the new path string:
-    printf("New directory is: %s", pathString.c_str());
+    printf("New directory is: %s\n", wdPath.c_str());
   }
   else
   {
