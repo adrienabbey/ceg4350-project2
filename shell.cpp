@@ -12,8 +12,9 @@
 
 extern MountEntry *mtab;
 extern VNIN cwdVNIN;
-FileVolume *fv; // Suspicious!
-Directory *wd;  // Suspicious!
+FileVolume *fv;           // Suspicious!
+Directory *wd;            // Suspicious!
+std::string wdPath = "/"; // String of the current working directory.
 
 #define nArgsMax 10
 char types[1 + nArgsMax]; // +1 for \0
@@ -270,18 +271,18 @@ void doMkDir(Arg *a)
 /// absolute path.
 void doChDir(Arg *a)
 {
-  TODO("doChDir");
-
   // Create a working directory variable to manipulate:
   Directory *workingDirectory = wd;
 
   // Turn the input argument into a char string to work with:
-  char *path = a[0].s; // Note: Ignoring extra arguments.
+  char *path = a[0].s;             // Note: Ignoring extra arguments.
+  std::string pathString = wdPath; // String of the current working directory.
 
   // Check if relative or absolute path:
   if (path[0] == '/')
   {
     // Absolute path.  Find the directory.
+    pathString = "/";
 
     // Start at root:
     workingDirectory = fv->root;
@@ -290,6 +291,7 @@ void doChDir(Arg *a)
     char *pathPart = strtok(path, "/");
     // NOTE: Since this is an absolute path, the first token is useless:
     pathPart = strtok(NULL, "/");
+    pathString = pathString + pathPart;
 
     // Search through each path part, looking for valid directories:
     while (pathPart != NULL)
@@ -299,8 +301,27 @@ void doChDir(Arg *a)
       if (nextDir != 0)
       {
         // Directory exists, switch to it:
+        workingDirectory = new Directory(fv, nextDir, nextDir);
+
+        // Update the path string:
+        pathString = pathString + "/" + pathPart;
+
+        // Move to the next path part:
+        pathPart = strtok(NULL, "/");
+      }
+      else
+      {
+        // The path was not found, invalid path, abort:
+        printf("Invalid path.");
+        return;
       }
     }
+
+    // Path found.  Set the new working directory:
+    wd = workingDirectory;
+
+    // Print out the new path string:
+    printf(pathString.c_str());
   }
   else
   {
