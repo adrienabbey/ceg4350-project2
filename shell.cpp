@@ -301,6 +301,7 @@ void doChDir(Arg *a)
       if (nextDir != 0)
       {
         // Directory exists, switch to it:
+        delete workingDirectory;
         workingDirectory = new Directory(fv, nextDir, nextDir);
 
         // Update the path string:
