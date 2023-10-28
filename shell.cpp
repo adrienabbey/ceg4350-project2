@@ -295,7 +295,11 @@ void doChDir(Arg *a)
     while (pathPart != NULL)
     {
       // Check if the next path part exists:
-      
+      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+      if (nextDir != 0)
+      {
+        // Directory exists, switch to it:
+      }
     }
   }
   else
