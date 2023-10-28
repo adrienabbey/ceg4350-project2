@@ -278,20 +278,32 @@ void doChDir(Arg *a)
   char *path = a[0].s;             // Note: Ignoring extra arguments.
   std::string pathString = wdPath; // String of the current working directory.
 
+  // TESTCODE: PLZ IGNORE:
+  std::cout << "  pwd: " << pathString << "  args: " << path << std::endl;
+
   // Check if relative or absolute path:
   if (path[0] == '/')
   {
+    // TEST:
+    std::cout << "  Absolute path." << std::endl;
+
     // Absolute path.  Find the directory.
-    pathString = "/";
+    pathString = "";
 
     // Start at root:
     workingDirectory = fv->root;
 
     // Start splitting the path into usable parts:
     char *pathPart = strtok(path, "/");
-    // NOTE: Since this is an absolute path, the first token is useless:
-    pathPart = strtok(NULL, "/");
-    pathString = pathString + pathPart;
+    std::cout << "  pathPart 1: " << pathPart << std::endl;
+
+    // If the pathPart is NULL, it means the user wants root:
+    if (pathPart == NULL || pathPart == 0)
+    {
+      wd = fv->root;
+      pathString = "/";
+      printf("  New directory is: %s", pathString.c_str());
+    }
 
     // Search through each path part, looking for valid directories:
     while (pathPart != NULL)
@@ -322,7 +334,7 @@ void doChDir(Arg *a)
     wd = workingDirectory;
 
     // Print out the new path string:
-    printf(pathString.c_str());
+    printf("New directory is: %s", pathString.c_str());
   }
   else
   {
