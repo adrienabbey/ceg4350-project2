@@ -276,7 +276,7 @@ void doChDir(Arg *a)
 
   // Turn the input argument into a char string to work with:
   char *path = a[0].s;             // Note: Ignoring extra arguments.
-  std::string pathString = wdPath; // String of the current working directory.
+  std::string pathString = wdPath; // Temporary path string for manipulation.
 
   // Check if relative or absolute path:
   if (path[0] == '/')
@@ -330,12 +330,42 @@ void doChDir(Arg *a)
   }
   else
   {
-    // Relative path.  Find the directory:
+    // Relative path.  Find the directory.
+
+    // Split the input argument into usable parts:
+    char *pathPart = strtok(path, "/");
+
+    // Search through each path part, looking for valid directories:
+    while (pathPart != NULL || pathPart != 0)
+    {
+      // Check if the next path part exists:
+      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+      if (nextDir != 0)
+      {
+        // Directory exists, switch to it:
+        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+
+        // Update the path string:
+        pathString = pathString + pathPart + "/";
+
+        // Move to the next path part:
+        pathPart = strtok(NULL, "/");
+      }
+      else
+      {
+        // The path was not found, invalid path, abort:
+        printf("Invalid path.\n");
+        return;
+      }
+    }
+
+    // Path found.  Set the new working directory:
+    wd = workingDirectory;
+    wdPath = pathString;
+
+    // Print out the new path string:
+    printf("New directory is: %s\n", wdPath.c_str());
   }
-
-  // If not found, print an error and return:
-
-  // If found, make it the current working directory:
 
   // Print out the new directory:
 }
