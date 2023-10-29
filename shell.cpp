@@ -96,8 +96,8 @@ void doMakeDisk(Arg *a)
 /// @param a `a[0]` is the disk name to be used.  If it already exists, it's
 /// loaded.  If not, it's created. See `mkSimDisk` for details.
 /// `a[1]` is the sector number of the current local disk to be written to.
-/// `a[2]` is the string to be written to the specified sector.  If no string is
-/// specified, "CEG433/633/Mateti" will be used instead.
+/// `a[2]` is the string to be written to the specified sector.  If no string
+/// is specified, "CEG433/633/Mateti" will be used instead.
 void doWriteDisk(Arg *a)
 {
   SimDisk *simDisk = mkSimDisk((byte *)a[0].s);
@@ -204,7 +204,8 @@ void doCopy(Arg *a)
   }
 }
 
-/// @brief Print a listing of the current local directory's contents, much like `ls -lisa` would.
+/// @brief Print a listing of the current local directory's contents, much like
+/// `ls -lisa` would.
 /// @param a Arguments, if any.  These are likely ignored.
 void doLsLong(Arg *a)
 {
@@ -346,6 +347,7 @@ void doChDir(Arg *a)
         workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
 
         // Update the path string:
+        // TODO: Fix relative '..' pathing.
         pathString = pathString + pathPart + "/";
 
         // Move to the next path part:
@@ -366,13 +368,13 @@ void doChDir(Arg *a)
     // Print out the new path string:
     printf("New directory is: %s\n", wdPath.c_str());
   }
-
-  // Print out the new directory:
 }
 
 void doPwd(Arg *a)
 {
   TODO("doPwd");
+
+  // Recursively crawl parent directories, appending their names in order.
 }
 
 void doMv(Arg *a)
@@ -537,7 +539,8 @@ void ourgets(char *buf)
 
 /* The following are all custom functions I wrote for Project 1. */
 
-// Copy/paste of provided code that executes a local command, from main() method to reduce repetition:
+// Copy/paste of provided code that executes a local command, from main()
+//   method to reduce repetition:
 void doCommand(char *buf)
 {
   setArgsGiven(buf, arg, types, nArgsMax);
