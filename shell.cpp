@@ -265,11 +265,12 @@ void doMkDir(Arg *a)
   printf("The new directory inode is: %d\n", newDir);
 }
 
+/// @brief Generates the path string for the given directory.  It does this by
+/// recursively calling itself on each parent directory.
+/// @param dir Directory for which to find the full path string of.
+/// @return Returns a string containing the full path for the given directory.
 std::string getPwdString(Directory *dir)
 {
-  // Gets the path string of the parent directory (recursively calling itself),
-  // prepends it to the current directory name, and returns that path string.
-
   // If this is the root node:
   if (dir->nInode == 1)
   {
@@ -389,14 +390,14 @@ void doChDir(Arg *a)
   }
 }
 
+/// @brief Prints out the path string of the current working directory.
+/// @param a Not used!
 void doPwd(Arg *a)
 {
-  // Recursively crawl parent directories, appending their names in order.
-
-  // Track the current directory:
+  // Track the current working directory:
   Directory *currentDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
 
-  // Call the recursive function to build the string:
+  // Call the recursive function on the current working directory to build the string:
   std::string pathStr = getPwdString(currentDirectory);
 
   // Print out the current working directory path:
