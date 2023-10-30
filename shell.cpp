@@ -9,6 +9,8 @@
 #include "fs33types.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
+#include <bits/stdc++.h>
 
 extern MountEntry *mtab;
 extern VNIN cwdVNIN;
@@ -370,7 +372,7 @@ void doChDir(Arg *a)
   }
 }
 
-void getPwdString(Directory dir, std::string *pathString)
+void getPwdString(Directory &dir, std::string *pathString)
 {
   // Recursive function which prepends the name of the given directory's parent
   // directory to the given path string, calling itself again
@@ -380,13 +382,45 @@ void getPwdString(Directory dir, std::string *pathString)
   {
     // Prepend '/' to the string:
     pathString = '/' + pathString;
+    std::cout << "  root dir: " << pathString << std::endl;
     return;
   }
   else
   {
     // Prepend the parent directory's name:
+    // uint parentiNode = dir.iNumberOf((byte *)"..");
+    // byte *parentByte = dir.nameOf(parentiNode);
+    // Convert from byte to char: https://stackoverflow.com/a/57399288
+    // char parentName[strlen((char *)parentByte)];
+    // memcpy(parentName, parentByte, strlen((char *)parentByte));
+    // parentName[strlen((char *)parentByte)] = 0;
+    // std::cout << "  The parent directory name is: " << parentName << std::endl;
+    // pathString = '/' + pathString;
+    // pathString->insert(0, parentName); // https://stackoverflow.com/a/8468655
+
+    // Get the name of the parent directory:
+    // Go up two directories:
+    Directory *parentDir = new Directory(fv, dir.iNumberOf((byte *)".."), dir.iNumberOf((byte *)".."));
+    Directory *grandparentDir = new Directory(fv, parentDir->iNumberOf((byte *)".."), parentDir->iNumberOf((byte *)".."));
+    // NOTE: It's safe to give bad parent inodes.  It only creates those entries
+    // if they don't already exist, and ignores them otherwise.
+
+    // Get the name of the parent directory:
+    byte *parentByte = grandparentDir->nameOf(dir.iNumberOf((byte *)".."));
+    // Convert from byte to char: https://stackoverflow.com/a/57399288
+    // uint maxName = strlen((char *)parentByte);
+    // std::vector<char> parentName;
+    // memcpy(&parentName, parentByte, strlen((char *)parentByte));
+    // std::cout << "  The parent directory name is: " << parentName << std::endl; // TEST
+
+    char *parentName = (char *)parentByte + 0;
+
+    // Prepend the parent directory's name to the current path:
+    pathString = '/' + pathString;
+    pathString->insert(0, parentName);
 
     // Call this function again on the parent directory:
+    getPwdString(*parentDir, pathString);
   }
 }
 
@@ -398,6 +432,13 @@ void doPwd(Arg *a)
 
   // Track the current directory:
   Directory *currentDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
+  std::string pathString = "";
+
+  // Call the recursive function to build the string:
+  getPwdString(*currentDirectory, &pathString);
+
+  // Print out the current working directory path:
+  printf("%s", pathString.c_str());
 }
 
 void doMv(Arg *a)
