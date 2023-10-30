@@ -14,9 +14,8 @@
 
 extern MountEntry *mtab;
 extern VNIN cwdVNIN;
-FileVolume *fv;           // Suspicious!
-Directory *wd;            // Suspicious!
-std::string wdPath = "/"; // String of the current working directory.  FIXME: Temporary!
+FileVolume *fv; // Suspicious!
+Directory *wd;  // Suspicious!
 
 #define nArgsMax 10
 char types[1 + nArgsMax]; // +1 for \0
@@ -266,6 +265,36 @@ void doMkDir(Arg *a)
   printf("The new directory inode is: %d\n", newDir);
 }
 
+std::string getPwdString(Directory *dir)
+{
+  // Gets the path string of the parent directory (recursively calling itself),
+  // prepends it to the current directory name, and returns that path string.
+
+  // If this is the root node:
+  if (dir->nInode == 1)
+  {
+    // No parent directory, return the root path:
+    return "/";
+  }
+  else
+  {
+    // Get the path string of this directory's parent:
+    Directory *parentDir = new Directory(fv, dir->iNumberOf((byte *)".."), dir->iNumberOf((byte *)".."));
+    std::string parentPath = getPwdString(parentDir);
+
+    // Get the name of the current directory:
+    byte *dirNameByte = parentDir->nameOf(dir->nInode);
+    std::string dirNameStr = (char *)dirNameByte;
+
+    // Prepend the parent path to the directory name:
+    std::string returnString = parentPath;
+    returnString.append(dirNameStr);
+    returnString.append("/");
+
+    return returnString;
+  }
+}
+
 /// @brief Change the current directory to the given directory or path.  If
 /// the argument begins with a slash, it's an absolute name.  If it does not,
 /// it's relative to the current working directory.  In either case, print the
@@ -278,8 +307,7 @@ void doChDir(Arg *a)
   Directory *workingDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
 
   // Turn the input argument into a char string to work with:
-  char *path = a[0].s;             // Note: Ignoring extra arguments.
-  std::string pathString = wdPath; // Temporary path string for manipulation.
+  char *path = a[0].s; // Note: Ignoring extra arguments.
 
   // Check if relative or absolute path:
   if (path[0] == '/')
@@ -288,7 +316,6 @@ void doChDir(Arg *a)
 
     // Start at root:
     workingDirectory = fv->root;
-    pathString = "";
 
     // Start splitting the path into usable parts:
     char *pathPart = strtok(path, "/");
@@ -297,7 +324,6 @@ void doChDir(Arg *a)
     if (pathPart == NULL || pathPart == 0)
     {
       wd = fv->root;
-      pathString = "/";
     }
 
     // Search through each path part, looking for valid directories:
@@ -309,9 +335,6 @@ void doChDir(Arg *a)
       {
         // Directory exists, switch to it:
         workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
-
-        // Update the path string:
-        pathString = pathString + "/" + pathPart;
 
         // Move to the next path part:
         pathPart = strtok(NULL, "/");
@@ -326,10 +349,9 @@ void doChDir(Arg *a)
 
     // Path found.  Set the new working directory:
     wd = workingDirectory;
-    wdPath = pathString;
 
     // Print out the new path string:
-    printf("New directory is: %s\n", wdPath.c_str());
+    printf("New directory is: %s\n", getPwdString(wd).c_str());
   }
   else
   {
@@ -348,10 +370,6 @@ void doChDir(Arg *a)
         // Directory exists, switch to it:
         workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
 
-        // Update the path string:
-        // TODO: Fix relative '..' pathing.
-        pathString = pathString + pathPart + "/";
-
         // Move to the next path part:
         pathPart = strtok(NULL, "/");
       }
@@ -365,80 +383,24 @@ void doChDir(Arg *a)
 
     // Path found.  Set the new working directory:
     wd = workingDirectory;
-    wdPath = pathString;
 
     // Print out the new path string:
-    printf("New directory is: %s\n", wdPath.c_str());
-  }
-}
-
-void getPwdString(Directory &dir, std::string *pathString)
-{
-  // Recursive function which prepends the name of the given directory's parent
-  // directory to the given path string, calling itself again
-
-  // If this is the root node:
-  if (dir.nInode == 1)
-  {
-    // Prepend '/' to the string:
-    pathString = '/' + pathString;
-    std::cout << "  root dir: " << pathString << std::endl;
-    return;
-  }
-  else
-  {
-    // Prepend the parent directory's name:
-    // uint parentiNode = dir.iNumberOf((byte *)"..");
-    // byte *parentByte = dir.nameOf(parentiNode);
-    // Convert from byte to char: https://stackoverflow.com/a/57399288
-    // char parentName[strlen((char *)parentByte)];
-    // memcpy(parentName, parentByte, strlen((char *)parentByte));
-    // parentName[strlen((char *)parentByte)] = 0;
-    // std::cout << "  The parent directory name is: " << parentName << std::endl;
-    // pathString = '/' + pathString;
-    // pathString->insert(0, parentName); // https://stackoverflow.com/a/8468655
-
-    // Get the name of the parent directory:
-    // Go up two directories:
-    Directory *parentDir = new Directory(fv, dir.iNumberOf((byte *)".."), dir.iNumberOf((byte *)".."));
-    Directory *grandparentDir = new Directory(fv, parentDir->iNumberOf((byte *)".."), parentDir->iNumberOf((byte *)".."));
-    // NOTE: It's safe to give bad parent inodes.  It only creates those entries
-    // if they don't already exist, and ignores them otherwise.
-
-    // Get the name of the parent directory:
-    byte *parentByte = grandparentDir->nameOf(dir.iNumberOf((byte *)".."));
-    // Convert from byte to char: https://stackoverflow.com/a/57399288
-    // uint maxName = strlen((char *)parentByte);
-    // std::vector<char> parentName;
-    // memcpy(&parentName, parentByte, strlen((char *)parentByte));
-    // std::cout << "  The parent directory name is: " << parentName << std::endl; // TEST
-
-    char *parentName = (char *)parentByte + 0;
-
-    // Prepend the parent directory's name to the current path:
-    pathString = '/' + pathString;
-    pathString->insert(0, parentName);
-
-    // Call this function again on the parent directory:
-    getPwdString(*parentDir, pathString);
+    printf("New directory is: %s\n", getPwdString(wd).c_str());
   }
 }
 
 void doPwd(Arg *a)
 {
-  TODO("doPwd");
-
   // Recursively crawl parent directories, appending their names in order.
 
   // Track the current directory:
   Directory *currentDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
-  std::string pathString = "";
 
   // Call the recursive function to build the string:
-  getPwdString(*currentDirectory, &pathString);
+  std::string pathStr = getPwdString(currentDirectory);
 
   // Print out the current working directory path:
-  printf("%s", pathString.c_str());
+  printf("%s\n", pathStr.c_str());
 }
 
 void doMv(Arg *a)
