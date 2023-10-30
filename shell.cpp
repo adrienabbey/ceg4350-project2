@@ -14,7 +14,7 @@ extern MountEntry *mtab;
 extern VNIN cwdVNIN;
 FileVolume *fv;           // Suspicious!
 Directory *wd;            // Suspicious!
-std::string wdPath = "/"; // String of the current working directory.
+std::string wdPath = "/"; // String of the current working directory.  FIXME: Temporary!
 
 #define nArgsMax 10
 char types[1 + nArgsMax]; // +1 for \0
@@ -370,11 +370,34 @@ void doChDir(Arg *a)
   }
 }
 
+void getPwdString(Directory dir, std::string *pathString)
+{
+  // Recursive function which prepends the name of the given directory's parent
+  // directory to the given path string, calling itself again
+
+  // If this is the root node:
+  if (dir.nInode == 1)
+  {
+    // Prepend '/' to the string:
+    pathString = '/' + pathString;
+    return;
+  }
+  else
+  {
+    // Prepend the parent directory's name:
+
+    // Call this function again on the parent directory:
+  }
+}
+
 void doPwd(Arg *a)
 {
   TODO("doPwd");
 
   // Recursively crawl parent directories, appending their names in order.
+
+  // Track the current directory:
+  Directory *currentDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
 }
 
 void doMv(Arg *a)
