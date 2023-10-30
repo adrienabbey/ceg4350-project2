@@ -351,7 +351,7 @@ void doChDir(Arg *a)
     wd = workingDirectory;
 
     // Print out the new path string:
-    printf("New directory is: %s\n", getPwdString(wd).c_str());
+    printf("%s\n", getPwdString(wd).c_str());
   }
   else
   {
@@ -385,7 +385,7 @@ void doChDir(Arg *a)
     wd = workingDirectory;
 
     // Print out the new path string:
-    printf("New directory is: %s\n", getPwdString(wd).c_str());
+    printf("%s\n", getPwdString(wd).c_str());
   }
 }
 
