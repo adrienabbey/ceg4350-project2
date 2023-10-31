@@ -205,15 +205,110 @@ void doCopy(Arg *a)
   }
 }
 
+/// @brief Attempts to find the directory path given.
+/// @param path Relative or absolute path of directory to search for.
+/// @return Returns the inode of the directory, if found.
+/// Returns 0 if nothing found.
+uint findDir(char *path)
+{
+  // Create a working directory variable to manipulate, starting at root:
+  Directory *workingDirectory = new Directory(fv, fv->root->nInode, fv->root->nInode);
+
+  // Check if relative or absolute path:
+  if (path[0] == '/')
+  {
+    // Absolute path.  Find the directory.
+
+    // Start splitting the path into usable parts:
+    char *pathPart = strtok(path, "/");
+
+    // If the pathPart is NULL, it means the user wants root:
+    if (pathPart == NULL || pathPart == 0)
+    {
+      return fv->root->nInode;
+    }
+
+    // Search through each path part, looking for valid directories:
+    while (pathPart != NULL || pathPart != 0)
+    {
+      // Check if the next path part exists:
+      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+      if (nextDir != 0)
+      {
+        // Directory exists, switch to it:
+        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+
+        // Move to the next path part:
+        pathPart = strtok(NULL, "/");
+      }
+      else
+      {
+        // The path was not found, invalid path, abort:
+        return 0;
+      }
+    }
+
+    // Return the inode of the directory found:
+    return workingDirectory->nInode;
+  }
+  else
+  {
+    // Relative path.  Find the directory.
+
+    // Split the input argument into usable parts:
+    char *pathPart = strtok(path, "/");
+
+    // Search through each path part, looking for valid directories:
+    while (pathPart != NULL || pathPart != 0)
+    {
+      // Check if the next path part exists:
+      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+      if (nextDir != 0)
+      {
+        // Directory exists, switch to it:
+        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+
+        // Move to the next path part:
+        pathPart = strtok(NULL, "/");
+      }
+      else
+      {
+        // The path was not found, invalid path, abort:
+        printf("Invalid path.\n");
+        return 0;
+      }
+    }
+
+    // Return the inode number of the directory found:
+    return workingDirectory->nInode;
+  }
+}
+
 /// @brief Print a listing of the current local directory's contents, much like
 /// `ls -lisa` would.
 /// @param a Arguments, if any.  These are likely ignored.
 void doLsLong(Arg *a)
 {
-  printf("\nDirectory listing for disk %s, cwdVNIN == 0x%0lx begins:\n",
-         wd->fv->simDisk->name, (ulong)cwdVNIN);
-  wd->ls(); // Suspicious!
-  printf("Directory listing ends.\n");
+  // If an argument is given, treat it as a path to ls:
+  if (a[0].s != NULL)
+  {
+    Directory *pathDir = new Directory(fv, findDir(a[0].s), fv->root->nInode);
+    // Safe to specify the parent as root, as a parent dir should already exist
+    // and won't be overwritten.
+
+    printf("\nDirectory listing for disk %s, cwdVNIN == 0x%0lx begins:\n",
+           wd->fv->simDisk->name, (ulong)cwdVNIN);
+    pathDir->ls(); // Not suspicious at all anymore!
+    printf("Directory listing ends.\n");
+  }
+  else
+  {
+    // If no directory path specified, use the current working directory:
+    printf("\nDirectory listing for disk %s, cwdVNIN == 0x%0lx begins:\n",
+           wd->fv->simDisk->name, (ulong)cwdVNIN);
+    wd->ls(); // Suspicious!
+    printf("Directory listing ends.\n");
+  }
 }
 
 /// @brief Deletes the given file from the current local directory.
@@ -448,6 +543,7 @@ public:
     {"echo", "ssss", "", doEcho},
     {"inode", "u", "v", doInode},
     {"ls", "", "v", doLsLong},
+    {"ls", "s", "v", doLsLong}, // Allow ls to specify a path
     {"lslong", "", "v", doLsLong},
     {"mkdir", "s", "v", doMkDir},
     {"mkdisk", "s", "", doMakeDisk},
