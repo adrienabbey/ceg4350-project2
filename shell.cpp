@@ -211,13 +211,12 @@ void doCopy(Arg *a)
 /// Returns 0 if nothing found.
 uint findDir(char *path)
 {
-  // Create a working directory variable to manipulate, starting at root:
-  Directory *workingDirectory = new Directory(fv, fv->root->nInode, fv->root->nInode);
-
   // Check if relative or absolute path:
   if (path[0] == '/')
   {
     // Absolute path.  Find the directory.
+    // Start at the root directory:
+    Directory *workingDirectory = new Directory(fv, fv->root->nInode, fv->root->nInode);
 
     // Start splitting the path into usable parts:
     char *pathPart = strtok(path, "/");
@@ -254,6 +253,8 @@ uint findDir(char *path)
   else
   {
     // Relative path.  Find the directory.
+    // Start in the current working directory:
+    Directory *workingDirectory = new Directory(fv, wd->nInode, fv->root->nInode);
 
     // Split the input argument into usable parts:
     char *pathPart = strtok(path, "/");
@@ -274,7 +275,6 @@ uint findDir(char *path)
       else
       {
         // The path was not found, invalid path, abort:
-        printf("Invalid path.\n");
         return 0;
       }
     }
@@ -289,17 +289,28 @@ uint findDir(char *path)
 /// @param a Arguments, if any.  These are likely ignored.
 void doLsLong(Arg *a)
 {
-  // If an argument is given, treat it as a path to ls:
+  // If an argument is given, treat it as a directory path to ls:
   if (a[0].s != NULL)
   {
-    Directory *pathDir = new Directory(fv, findDir(a[0].s), fv->root->nInode);
-    // Safe to specify the parent as root, as a parent dir should already exist
-    // and won't be overwritten.
+    // Confirm the path is valid:
+    uint pathInode = findDir(a[0].s);
+    if (pathInode > 0)
+    {
+      // Valid path.  Make it so:
+      Directory *pathDir = new Directory(fv, findDir(a[0].s), fv->root->nInode);
+      // Safe to specify the parent as root, as a parent dir should already exist
+      // and won't be overwritten.
 
-    printf("\nDirectory listing for disk %s, cwdVNIN == 0x%0lx begins:\n",
-           wd->fv->simDisk->name, (ulong)cwdVNIN);
-    pathDir->ls(); // Not suspicious at all anymore!
-    printf("Directory listing ends.\n");
+      printf("\nDirectory listing for disk %s, cwdVNIN == 0x%0lx begins:\n",
+             wd->fv->simDisk->name, (ulong)cwdVNIN);
+      pathDir->ls(); // Not suspicious at all anymore!
+      printf("Directory listing ends.\n");
+    }
+    else
+    {
+      // Invalid path, complain loudly:
+      printf("%s", "Invalid path.\n");
+    }
   }
   else
   {
@@ -399,90 +410,109 @@ std::string getPwdString(Directory *dir)
 /// absolute path.
 void doChDir(Arg *a)
 {
-  // Create a working directory variable to manipulate:
-  Directory *workingDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
+  // Find the path given:
+  char *pathArg = a[0].s;
+  uint pathInode = findDir(pathArg);
 
-  // Turn the input argument into a char string to work with:
-  char *path = a[0].s; // Note: Ignoring extra arguments.
-
-  // Check if relative or absolute path:
-  if (path[0] == '/')
+  // If the path exists:
+  if (pathInode > 0)
   {
-    // Absolute path.  Find the directory.
+    // Change the working directory:
+    wd = new Directory(fv, pathInode, fv->root->nInode);
 
-    // Start at root:
-    workingDirectory = fv->root;
-
-    // Start splitting the path into usable parts:
-    char *pathPart = strtok(path, "/");
-
-    // If the pathPart is NULL, it means the user wants root:
-    if (pathPart == NULL || pathPart == 0)
-    {
-      wd = fv->root;
-    }
-
-    // Search through each path part, looking for valid directories:
-    while (pathPart != NULL || pathPart != 0)
-    {
-      // Check if the next path part exists:
-      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
-      if (nextDir != 0)
-      {
-        // Directory exists, switch to it:
-        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
-
-        // Move to the next path part:
-        pathPart = strtok(NULL, "/");
-      }
-      else
-      {
-        // The path was not found, invalid path, abort:
-        printf("Invalid path.\n");
-        return;
-      }
-    }
-
-    // Path found.  Set the new working directory:
-    wd = workingDirectory;
-
-    // Print out the new path string:
+    // Print the new working directory:
     printf("%s\n", getPwdString(wd).c_str());
   }
   else
   {
-    // Relative path.  Find the directory.
-
-    // Split the input argument into usable parts:
-    char *pathPart = strtok(path, "/");
-
-    // Search through each path part, looking for valid directories:
-    while (pathPart != NULL || pathPart != 0)
-    {
-      // Check if the next path part exists:
-      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
-      if (nextDir != 0)
-      {
-        // Directory exists, switch to it:
-        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
-
-        // Move to the next path part:
-        pathPart = strtok(NULL, "/");
-      }
-      else
-      {
-        // The path was not found, invalid path, abort:
-        printf("Invalid path.\n");
-        return;
-      }
-    }
-
-    // Path found.  Set the new working directory:
-    wd = workingDirectory;
-
-    // Print out the new path string:
-    printf("%s\n", getPwdString(wd).c_str());
+    // Invalid path.  Complain loudly:
+    printf("%s", "Invalid path.\n");
   }
+
+  // // Create a working directory variable to manipulate:
+  // Directory *workingDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
+
+  // // Turn the input argument into a char string to work with:
+  // char *path = a[0].s; // Note: Ignoring extra arguments.
+
+  // // Check if relative or absolute path:
+  // if (path[0] == '/')
+  // {
+  //   // Absolute path.  Find the directory.
+
+  //   // Start at root:
+  //   workingDirectory = fv->root;
+
+  //   // Start splitting the path into usable parts:
+  //   char *pathPart = strtok(path, "/");
+
+  //   // If the pathPart is NULL, it means the user wants root:
+  //   if (pathPart == NULL || pathPart == 0)
+  //   {
+  //     wd = fv->root;
+  //   }
+
+  //   // Search through each path part, looking for valid directories:
+  //   while (pathPart != NULL || pathPart != 0)
+  //   {
+  //     // Check if the next path part exists:
+  //     uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+  //     if (nextDir != 0)
+  //     {
+  //       // Directory exists, switch to it:
+  //       workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+
+  //       // Move to the next path part:
+  //       pathPart = strtok(NULL, "/");
+  //     }
+  //     else
+  //     {
+  //       // The path was not found, invalid path, abort:
+  //       printf("Invalid path.\n");
+  //       return;
+  //     }
+  //   }
+
+  //   // Path found.  Set the new working directory:
+  //   wd = workingDirectory;
+
+  //   // Print out the new path string:
+  //   printf("%s\n", getPwdString(wd).c_str());
+  // }
+  // else
+  // {
+  //   // Relative path.  Find the directory.
+
+  //   // Split the input argument into usable parts:
+  //   char *pathPart = strtok(path, "/");
+
+  //   // Search through each path part, looking for valid directories:
+  //   while (pathPart != NULL || pathPart != 0)
+  //   {
+  //     // Check if the next path part exists:
+  //     uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+  //     if (nextDir != 0)
+  //     {
+  //       // Directory exists, switch to it:
+  //       workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+
+  //       // Move to the next path part:
+  //       pathPart = strtok(NULL, "/");
+  //     }
+  //     else
+  //     {
+  //       // The path was not found, invalid path, abort:
+  //       printf("Invalid path.\n");
+  //       return;
+  //     }
+  //   }
+
+  //   // Path found.  Set the new working directory:
+  //   wd = workingDirectory;
+
+  //   // Print out the new path string:
+  //   printf("%s\n", getPwdString(wd).c_str());
+  // }
 }
 
 /// @brief Prints out the path string of the current working directory.
