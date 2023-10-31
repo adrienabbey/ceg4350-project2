@@ -211,77 +211,54 @@ void doCopy(Arg *a)
 /// Returns 0 if nothing found.
 uint findDir(char *path)
 {
+  // Create a working directory that can change without mangling wd:
+  Directory *workingDirectory;
+  
   // Check if relative or absolute path:
   if (path[0] == '/')
   {
     // Absolute path.  Find the directory.
     // Start at the root directory:
-    Directory *workingDirectory = new Directory(fv, fv->root->nInode, fv->root->nInode);
-
-    // Start splitting the path into usable parts:
-    char *pathPart = strtok(path, "/");
-
-    // If the pathPart is NULL, it means the user wants root:
-    if (pathPart == NULL || pathPart == 0)
-    {
-      return fv->root->nInode;
-    }
-
-    // Search through each path part, looking for valid directories:
-    while (pathPart != NULL || pathPart != 0)
-    {
-      // Check if the next path part exists:
-      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
-      if (nextDir != 0)
-      {
-        // Directory exists, switch to it:
-        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
-
-        // Move to the next path part:
-        pathPart = strtok(NULL, "/");
-      }
-      else
-      {
-        // The path was not found, invalid path, abort:
-        return 0;
-      }
-    }
-
-    // Return the inode of the directory found:
-    return workingDirectory->nInode;
+    workingDirectory = new Directory(fv, fv->root->nInode, fv->root->nInode);
   }
   else
   {
     // Relative path.  Find the directory.
     // Start in the current working directory:
-    Directory *workingDirectory = new Directory(fv, wd->nInode, fv->root->nInode);
-
-    // Split the input argument into usable parts:
-    char *pathPart = strtok(path, "/");
-
-    // Search through each path part, looking for valid directories:
-    while (pathPart != NULL || pathPart != 0)
-    {
-      // Check if the next path part exists:
-      uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
-      if (nextDir != 0)
-      {
-        // Directory exists, switch to it:
-        workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
-
-        // Move to the next path part:
-        pathPart = strtok(NULL, "/");
-      }
-      else
-      {
-        // The path was not found, invalid path, abort:
-        return 0;
-      }
-    }
-
-    // Return the inode number of the directory found:
-    return workingDirectory->nInode;
+    workingDirectory = new Directory(fv, wd->nInode, fv->root->nInode);
   }
+
+  // Start splitting the path into usable parts:
+  char *pathPart = strtok(path, "/");
+
+  // If the pathPart is NULL, it means the user wants root:
+  if (pathPart == NULL || pathPart == 0)
+  {
+    return fv->root->nInode;
+  }
+
+  // Search through each path part, looking for valid directories:
+  while (pathPart != NULL || pathPart != 0)
+  {
+    // Check if the next path part exists:
+    uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
+    if (nextDir != 0)
+    {
+      // Directory exists, switch to it:
+      workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+
+      // Move to the next path part:
+      pathPart = strtok(NULL, "/");
+    }
+    else
+    {
+      // The path was not found, invalid path, abort:
+      return 0;
+    }
+  }
+
+  // Return the inode of the directory found:
+  return workingDirectory->nInode;
 }
 
 /// @brief Print a listing of the current local directory's contents, much like
