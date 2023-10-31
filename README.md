@@ -55,7 +55,7 @@
 - [x] `mkdir dnm` (10 pts)
 - [x] `chdir pnm` (10 pts)
 - [ ] `rmdir dnm` (10 pts)
-- [ ] `ls dnm` (10 pts)
+- [x] `ls dnm` (10 pts)
 - [ ] `mv da db` (where `db` may not exist, but if it does, it's a file) (5 pts)
 - [ ] `mv da db` (where `db` exists, and is a directory; `da` may or may not exist inside `db`) (5 pts)
 - [ ] `mv da db` (where both are path names) (5 pts)
