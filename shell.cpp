@@ -237,11 +237,20 @@ uint findFile(char *path)
   while (pathPart != NULL)
   {
     // Check if the next path part exists:
-    uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
-    if (nextDir != 0)
+    uint nextInode = workingDirectory->iNumberOf((byte *)pathPart);
+    if (nextInode != 0)
     {
-      // Directory exists, switch to it:
-      workingDirectory = new Directory(fv, nextDir, workingDirectory->iNumberOf((byte *)".."));
+      // If the next path part is a directory:
+      if (fv->inodes.getType(nextInode) == 2)
+      {
+        // Directory exists, switch to it:
+        workingDirectory = new Directory(fv, nextInode, workingDirectory->iNumberOf((byte *)".."));
+      }
+      else
+      {
+        // It's a file.
+        return nextInode;
+      }
 
       // Move to the next path part:
       pathPart = strtok(NULL, "/");
@@ -306,32 +315,65 @@ void doRm(Arg *a)
   // files/directories.
 
   // Find the file/folder:
-  char *filePath = a[0].s;
-  uint fileInode = findFile(filePath);
+  // char *filePath = a[0].s;
+  // uint fileInode = findFile(filePath);
 
-  // If a file is found:
-  if (fileInode > 0)
-  {
-    // If this is a directory:
-    if (fv->inodes.getType(fileInode) == 2)
-    {
-      // Check if the directory is empty:
-      Directory *currentDir = new Directory(fv, fileInode, fileInode);
+  // // If a file is found:
+  // if (fileInode > 0)
+  // {
+  //   // If this is a directory:
+  //   if (fv->inodes.getType(fileInode) == 2)
+  //   {
+  //     // Check if the directory is empty:
+  //     Directory *currentDir = new Directory(fv, fileInode, fileInode);
 
-      // NOTE: ls returns the number of files in a given directory!  
-      // Unfortunately, it also prints out stuff.  I could make lsPrivate 
-      // public, but I have a  feeling that'd be bad.
-      // Solution: redirect stdout briefly?
-    }
+  //     // NOTE: ls returns the number of files in a given directory!
+  //     // Unfortunately, it also prints out stuff.  I could make lsPrivate
+  //     // public, but I have a  feeling that'd be bad.
+  //     // Solution: redirect stdout briefly?
 
-    // Get the parent directory:
-    Directory *parentDir = new Directory(fv, fileInode, fileInode);
+  //     // Redirect stdout to a temporary file:
+  //     int backupStdout = dup(STDOUT_FILENO);
+  //     int tempOut = open("/dev/null", O_WRONLY); // /dev/null exists to consume
+  //     dup2(tempOut, STDOUT_FILENO);
 
-    // Use the parent to delete the given file:
-    parentDir->deleteFile(parentDir->nameOf(fileInode), 1);
-  }
+  //     // Get the number of files in the given folder:
+  //     uint fileCount = currentDir->ls();
 
-  uint in = wd->fv->deleteFile((byte *)a[0].s);
+  //     // If there are files in the folder:
+  //     if (fileCount > 0)
+  //     {
+  //       // TODO: check for -fr flag.
+  //       // Abort:
+  //       printf("%s", "Directory not empty.");
+
+  //       // Restore stdin and return:
+  //       dup2(backupStdout, STDOUT_FILENO);
+  //       close(backupStdout);
+  //       return;
+  //     }
+
+  //     // Restore stdout:
+  //     dup2(backupStdout, STDOUT_FILENO);
+  //     close(backupStdout);
+  //   }
+
+  //   // Get the parent directory of the given file:
+
+  //   // Use the parent to delete the given file:
+  //   uint in = parentDir->deleteFile(parentDir->nameOf(fileInode), 1);
+
+  //   // Preserve original messaging:
+  //   printf("rm %s returns %d.\n", a[0].s, in);
+  // }
+  // else
+  // {
+  //   // Invalid path.
+  //   printf("%s", "Invalid path.");
+  // }
+
+  // uint in = wd->fv->deleteFile((byte *)a[0].s);
+  uint in = wd->deleteFile((byte *)a[0].s, 1);
   printf("rm %s returns %d.\n", a[0].s, in);
 }
 
