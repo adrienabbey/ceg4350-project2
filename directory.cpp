@@ -208,6 +208,11 @@ uint Directory::createFile(byte *leafnm, uint dirFlag)
 /* Do not delete if it is dot or dotdot.  Do not delete if it is a
  * non-empty dir. */
 
+/// @brief Attempts to delete the file in this directory.  Will NOT check if a
+/// given directory has contents!
+/// @param leafnm Byte string of the file to be deleted.
+/// @param freeInodeFlag Treated as a boolean: if true, set the inode free.
+/// @return Returns the inode of the file deleted, or 0 if nothing was deleted.
 uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
 {
   if (strcmp((char *)leafnm, ".") == 0 ||
