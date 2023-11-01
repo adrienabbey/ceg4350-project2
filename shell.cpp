@@ -213,7 +213,7 @@ uint findDir(char *path)
 {
   // Create a working directory that can change without mangling wd:
   Directory *workingDirectory;
-  
+
   // Check if relative or absolute path:
   if (path[0] == '/')
   {
@@ -231,14 +231,8 @@ uint findDir(char *path)
   // Start splitting the path into usable parts:
   char *pathPart = strtok(path, "/");
 
-  // If the pathPart is NULL, it means the user wants root:
-  if (pathPart == NULL || pathPart == 0)
-  {
-    return fv->root->nInode;
-  }
-
   // Search through each path part, looking for valid directories:
-  while (pathPart != NULL || pathPart != 0)
+  while (pathPart != NULL)
   {
     // Check if the next path part exists:
     uint nextDir = workingDirectory->iNumberOf((byte *)pathPart);
