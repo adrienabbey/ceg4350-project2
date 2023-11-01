@@ -1,0 +1,17 @@
+# My test script to validate project functionality
+mkfs D2
+mkdir test1
+cd test1
+pwd
+mkdir test2
+mkdir test2
+cd test2
+ls
+cd /
+cd /test1/test2
+pwd
+cd ..
+ls /test/test2
+ls /test1/test2
+ls ..
+q
