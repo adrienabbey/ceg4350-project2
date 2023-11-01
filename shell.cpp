@@ -205,11 +205,11 @@ void doCopy(Arg *a)
   }
 }
 
-/// @brief Attempts to find the directory path given.
-/// @param path Relative or absolute path of directory to search for.
+/// @brief Attempts to find the file with the given path.
+/// @param path Relative or absolute path, including the file name.
 /// @return Returns the inode of the directory, if found.
 /// Returns 0 if nothing found.
-uint findDir(char *path)
+uint findFile(char *path)
 {
   // Create a working directory that can change without mangling wd:
   Directory *workingDirectory;
@@ -264,12 +264,12 @@ void doLsLong(Arg *a)
   if (a[0].s != NULL)
   {
     // Confirm the path is valid:
-    uint pathInode = findDir(a[0].s);
+    uint pathInode = findFile(a[0].s);
     // NOTE: Also check to confirm that the given inode is a directory!
     if (pathInode > 0 && fv->inodes.getType(pathInode) == 2)
     {
       // Valid path.  Make it so:
-      Directory *pathDir = new Directory(fv, findDir(a[0].s), fv->root->nInode);
+      Directory *pathDir = new Directory(fv, findFile(a[0].s), fv->root->nInode);
       // Safe to specify the parent as root, as a parent dir should already exist
       // and won't be overwritten.
 
@@ -383,10 +383,10 @@ void doChDir(Arg *a)
 {
   // Find the path given:
   char *pathArg = a[0].s;
-  uint pathInode = findDir(pathArg);
+  uint pathInode = findFile(pathArg);
 
-  // If the path exists:
-  if (pathInode > 0)
+  // If the path exists and is a directory:
+  if (pathInode > 0 && fv->inodes.getType(pathInode) == 2)
   {
     // Change the working directory:
     wd = new Directory(fv, pathInode, fv->root->nInode);
@@ -416,7 +416,10 @@ void doMv(Arg *a)
 {
   TODO("doMv");
 
-  // Moving a file is just the file copy function followed by removing the file.
+  // Moving a file could be as simple as just using the file copy function,
+  // followed by removing the file.  This is suboptimal, as it would be far more
+  // efficient to just adjust the directory pointers.
+
   // Note: It's already possible to delete a file/directory, but only if that
   // file/directory exists in the root directory.
 }
