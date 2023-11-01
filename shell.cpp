@@ -306,6 +306,30 @@ void doRm(Arg *a)
   // files/directories.
 
   // Find the file/folder:
+  char *filePath = a[0].s;
+  uint fileInode = findFile(filePath);
+
+  // If a file is found:
+  if (fileInode > 0)
+  {
+    // If this is a directory:
+    if (fv->inodes.getType(fileInode) == 2)
+    {
+      // Check if the directory is empty:
+      Directory *currentDir = new Directory(fv, fileInode, fileInode);
+
+      // NOTE: ls returns the number of files in a given directory!  
+      // Unfortunately, it also prints out stuff.  I could make lsPrivate 
+      // public, but I have a  feeling that'd be bad.
+      // Solution: redirect stdout briefly?
+    }
+
+    // Get the parent directory:
+    Directory *parentDir = new Directory(fv, fileInode, fileInode);
+
+    // Use the parent to delete the given file:
+    parentDir->deleteFile(parentDir->nameOf(fileInode), 1);
+  }
 
   uint in = wd->fv->deleteFile((byte *)a[0].s);
   printf("rm %s returns %d.\n", a[0].s, in);
