@@ -184,6 +184,8 @@ void doCopy33(byte *from, byte *to)
 /// which denotes a host system source file or destination.
 void doCopy(Arg *a)
 {
+  // TODO: Also work with subdirs?
+
   byte *to = (byte *)a[0].s;
   byte *from = (byte *)a[1].s;
 
@@ -316,6 +318,16 @@ void doInode(Arg *a)
   uint ni = a[0].u;
 
   wd->fv->inodes.show(ni);
+}
+
+void doInodeStr(Arg *a)
+{
+  // Find the given file:
+  char *filePath = (char *)a[0].s;
+  uint fileInode = findFile(filePath);
+
+  // Print the inode:
+  fv->inodes.show(fileInode);
 }
 
 /// @brief Create a directory with the given name in the current local
@@ -462,6 +474,7 @@ public:
     {"cp", "ss", "v", doCopy},
     {"echo", "ssss", "", doEcho},
     {"inode", "u", "v", doInode},
+    {"inode", "s", "v", doInodeStr},
     {"ls", "", "v", doLsLong},
     {"ls", "s", "v", doLsLong}, // Allow ls to specify a path
     {"lslong", "", "v", doLsLong},
