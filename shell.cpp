@@ -265,7 +265,8 @@ void doLsLong(Arg *a)
   {
     // Confirm the path is valid:
     uint pathInode = findDir(a[0].s);
-    if (pathInode > 0)
+    // NOTE: Also check to confirm that the given inode is a directory!
+    if (pathInode > 0 && fv->inodes.getType(pathInode) == 2)
     {
       // Valid path.  Make it so:
       Directory *pathDir = new Directory(fv, findDir(a[0].s), fv->root->nInode);
@@ -298,6 +299,12 @@ void doLsLong(Arg *a)
 /// @param a The file to be deleted from the current local directory.
 void doRm(Arg *a)
 {
+  // NOTE: This is functional, but only works for files/directories that exist
+  // within the root directory.  I'm modifying it to also work with non-root
+  // files/directories.
+
+  // Find the file/folder:
+
   uint in = wd->fv->deleteFile((byte *)a[0].s);
   printf("rm %s returns %d.\n", a[0].s, in);
 }
@@ -324,7 +331,7 @@ void doMkDir(Arg *a)
   uint existingDir = wd->iNumberOf((byte *)a[0].s);
   if (existingDir != 0)
   {
-    printf("The directory already exists.  Aborting.\n");
+    printf("The directory already exists.\n");
     return; // The directory already exists, do nothing.
   }
 
@@ -398,11 +405,8 @@ void doChDir(Arg *a)
 /// @param a Not used!
 void doPwd(Arg *a)
 {
-  // Track the current working directory:
-  Directory *currentDirectory = new Directory(fv, wd->nInode, wd->iNumberOf((byte *)".."));
-
   // Call the recursive function on the current working directory to build the string:
-  std::string pathStr = getPwdString(currentDirectory);
+  std::string pathStr = getPwdString(wd);
 
   // Print out the current working directory path:
   printf("%s\n", pathStr.c_str());
@@ -411,6 +415,10 @@ void doPwd(Arg *a)
 void doMv(Arg *a)
 {
   TODO("doMv");
+
+  // Moving a file is just the file copy function followed by removing the file.
+  // Note: It's already possible to delete a file/directory, but only if that
+  // file/directory exists in the root directory.
 }
 
 void doMountDF(Arg *a) // arg a ignored
