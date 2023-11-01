@@ -14,4 +14,10 @@ cd ..
 ls /test/test2
 ls /test1/test2
 ls ..
+inode 1
+inode /test/
+inode /test1/test2/
+cd /
+cp @ReadMe.txt ReadMe.txt
+inode ReadMe.txt
 q
