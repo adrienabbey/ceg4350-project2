@@ -320,11 +320,8 @@ void doInode(Arg *a)
 /// @param a The name of the directory to be created.
 void doMkDir(Arg *a)
 {
-  // TODO("doMkDir");
-
   // Check to see if the directory already exists:
-  //   Use the directory->iNumberOf method to do this.
-  uint existingDir = wd->iNumberOf((byte *)a[0].s); // Copy/pasted typecasting code from above method.
+  uint existingDir = wd->iNumberOf((byte *)a[0].s);
   if (existingDir != 0)
   {
     printf("The directory already exists.  Aborting.\n");
@@ -332,11 +329,7 @@ void doMkDir(Arg *a)
   }
 
   // Create a new directory (file):
-  //   Note: use wd->createFile to do this.
   uint newDir = wd->createFile((byte *)a[0].s, 1);
-
-  // Create a reference in the current directory to list the new subdirectory:
-  //   Note: I believe the previous method already did this for me.
 
   // Print the inode of the new directory:
   printf("The new directory inode is: %d\n", newDir);
