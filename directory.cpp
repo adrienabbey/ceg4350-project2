@@ -242,12 +242,6 @@ uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
 /// @return Returns the inode of the moved file if successful, 0 if unsuccessful.
 uint Directory::moveFile(uint pn, byte *leafnm)
 {
-  return TODO("Directory::moveFile");
-
-  // Verify that the file exists.
-
-  // Verify that the parent directory exists and is a directory.
-
   // Add the file to this directory.
   addLeafName(leafnm, pn);
 
@@ -255,6 +249,7 @@ uint Directory::moveFile(uint pn, byte *leafnm)
   deleteFile(leafnm, 0);
 
   // Return the inode of the moved file if successful.
+  return iNumberOf(leafnm);
 }
 
 // -eof-
