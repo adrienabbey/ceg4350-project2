@@ -490,6 +490,11 @@ void doPwd(Arg *a)
   printf("%s\n", pathStr.c_str());
 }
 
+/// @brief Move a file or directory to another location.
+/// If the first argument does not exist, do nothing.
+/// If the destination does not exist in the current directory, the 
+/// @param a Must have two arguments: the first is the file or directory being 
+/// moved, with the second being the destination file or directory.
 void doMv(Arg *a)
 {
   TODO("doMv");

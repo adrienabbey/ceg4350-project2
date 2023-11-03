@@ -131,6 +131,9 @@ uint okNameSyntax(byte *nm)
 /* pre:: none;; post:: Add file name newName with its inode number in
  * to this directory. */
 
+/// @brief Adds an existing file to this directory.
+/// @param newName Name of the file being added to this directory.
+/// @param in Inode of the file being added to this directory.
 void Directory::addLeafName(byte *newName, uint in)
 {
   if (in == 0 || okNameSyntax(newName) == 0)
@@ -186,7 +189,7 @@ uint Directory::ls()
 /// @param dirFlag If true, creates a new directory.  Otherwise, creates an
 /// ordinary file.
 /// @return Returns the inode number of either the new file/folder, or the
-/// inode number of an existing file/folder.
+/// inode number of an existing file/folder.  If no file was created, returns 0.
 uint Directory::createFile(byte *leafnm, uint dirFlag)
 {
   uint in = iNumberOf(leafnm);
@@ -233,13 +236,20 @@ uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
  * file named leafnm whose current parent is pn into this directory.;;
  */
 
-/// @brief Moves the given file to this directory.
-/// @param pn Parent directory inode.
-/// @param leafnm Name of the file being moved.
-/// @return Presumably a status code?
+/// @brief Moves the given file belonging to the given directory to this directory.
+/// @param pn Inode of the parent directory of the file being moved from.
+/// @param leafnm File name of the file being moved to this directory.
+/// @return Returns the inode of the moved file if successful, 0 if unsuccessful.
 uint Directory::moveFile(uint pn, byte *leafnm)
 {
-  return TODO("Directory::moveFile");
+  // Add the file to this directory.
+  addLeafName(leafnm, pn);
+
+  // "Delete" the file from the old parent directory, without freeing the file.
+  deleteFile(leafnm, 0);
+
+  // Return the inode of the moved file if successful.
+  return iNumberOf(leafnm);
 }
 
 // -eof-
