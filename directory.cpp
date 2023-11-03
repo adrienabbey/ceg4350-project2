@@ -91,7 +91,8 @@ byte *Directory::nameOf(uint in)
 
 /// @brief Searches the current directory for the given file name.
 /// @param leafnm The file name to search for.
-/// @return Returns the inode number if the file is found.  Otherwise, returns 0.
+/// @return Returns the memory location of the file pointer of this directory,
+/// or 0 if not found.
 uint Directory::setDirEntry(byte *leafnm)
 {
   if (leafnm == 0 || leafnm[0] == 0)
@@ -111,7 +112,8 @@ uint Directory::setDirEntry(byte *leafnm)
 
 /// @brief Search the current directory for the given file name.
 /// @param leafnm The file name to search for.
-/// @return If the given file name is found, return the inode number of that file.  Otherwise, returns 0.
+/// @return If the given file name is found, return the inode number of that
+/// file.  Otherwise, returns 0.
 uint Directory::iNumberOf(byte *leafnm)
 {
   uint in = setDirEntry(leafnm);
@@ -211,10 +213,12 @@ uint Directory::createFile(byte *leafnm, uint dirFlag)
 /* Do not delete if it is dot or dotdot.  Do not delete if it is a
  * non-empty dir. */
 
-/// @brief Attempts to delete the file in this directory.  Will NOT check if a
-/// given directory has contents!
+/// @brief Deletes the file reference from this directory.  Note: if the inode is
+/// not freed, it will only delete this directory's reference to the file
+/// without deleting the file!
 /// @param leafnm Byte string of the file to be deleted.
-/// @param freeInodeFlag Treated as a boolean: if true, set the inode free.
+/// @param freeInodeFlag Treated as a boolean: if true, set the inode free.  If
+/// false, the file will only be dereferenced from this directory.
 /// @return Returns the inode of the file deleted, or 0 if nothing was deleted.
 uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
 {
@@ -236,17 +240,25 @@ uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
  * file named leafnm whose current parent is pn into this directory.;;
  */
 
-/// @brief Moves the given file belonging to the given directory to this directory.
+/// @brief Moves the given file belonging to the given directory to this
+/// directory.
 /// @param pn Inode of the parent directory of the file being moved from.
 /// @param leafnm File name of the file being moved to this directory.
-/// @return Returns the inode of the moved file if successful, 0 if unsuccessful.
+/// @return Returns the inode of the moved file if successful, 0 if
+/// unsuccessful.
 uint Directory::moveFile(uint pn, byte *leafnm)
 {
+  printf("%s\n", "  TEST: Moving a file!");
+  // Create a reference to the source directory:
+  Directory *sourceDir = new Directory(fv, pn, 1);
+  printf("%s%d\n", "  Source dir inode is ", sourceDir->nInode);
+
   // Add the file to this directory.
-  addLeafName(leafnm, pn);
+  addLeafName(leafnm, sourceDir->iNumberOf(leafnm));
+  printf("%s%d%s\n", "  Adding ", sourceDir->iNumberOf(leafnm), " to this directory.");
 
   // "Delete" the file from the old parent directory, without freeing the file.
-  deleteFile(leafnm, 0);
+  sourceDir->deleteFile(leafnm, 0);
 
   // Return the inode of the moved file if successful.
   return iNumberOf(leafnm);

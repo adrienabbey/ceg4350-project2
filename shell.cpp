@@ -492,19 +492,52 @@ void doPwd(Arg *a)
 
 /// @brief Move a file or directory to another location.
 /// If the first argument does not exist, do nothing.
-/// If the destination does not exist in the current directory, the 
-/// @param a Must have two arguments: the first is the file or directory being 
+/// If the second argument does not exist in the current directory, the first
+/// argument is renamed to the second argument.
+/// If the second argument is an existing directory within the current
+/// directory, the first argument is moved (along with all its contents) into
+/// the second directory.
+/// If the second argument is an existing but ordinary file, do nothing.
+/// @param a Must have two arguments: the first is the file or directory being
 /// moved, with the second being the destination file or directory.
 void doMv(Arg *a)
 {
-  TODO("doMv");
+  // Ensure the first argument exists:
+  uint mvFromInode = wd->iNumberOf((byte *)a[0].s);
+  if (mvFromInode == 0)
+  {
+    printf("%s\n", "File or folder not found.");
+    return;
+  }
 
-  // Moving a file could be as simple as just using the file copy function,
-  // followed by removing the file.  This is suboptimal, as it would be far more
-  // efficient to just adjust the directory pointers.
-
-  // Note: It's already possible to delete a file/directory, but only if that
-  // file/directory exists in the root directory.
+  // Check if the second argument already exists:
+  uint mvToInode = wd->iNumberOf((byte *)a[1].s);
+  if (mvToInode > 0)
+  {
+    // Destination exists.
+    // Check if it's a file or folder:
+    if (fv->inodes.getType(mvToInode) == 2)
+    {
+      // Destination is a folder.
+      // Move the source file/folder to the destination folder:
+      std::cout << "  Moving to a folder." << std::endl;
+      Directory *destinationFolder = new Directory(fv, mvFromInode, 1);
+      destinationFolder->moveFile(wd->nInode, (byte *)a[0].s);
+    }
+    else
+    {
+      // Destination is an existing file.  Abort:
+      printf("%s\n", "Destination file already exists.");
+      return;
+    }
+  }
+  else
+  {
+    // Destination does not exist.
+    // Rename the source file/folder to the destination file/folder:
+    std::cout << "  Moving to rename." << std::endl;
+    wd->moveFile(wd->nInode, (byte *)a[1].s);
+  }
 }
 
 void doMountDF(Arg *a) // arg a ignored
