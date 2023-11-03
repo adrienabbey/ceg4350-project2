@@ -217,6 +217,13 @@ uint FileVolume::copy33file(byte *srcleaf, byte *dstleaf)
   return nBytesWritten;
 }
 
+/// @brief Moves a file or folder to the destination location?
+/// @param din Destination directory inode number?
+/// @param dstleaf Destination file name.
+/// @param wn 
+/// @param jn 
+/// @param srcleaf Source file name.
+/// @return Presumably returns a success code of some sort.
 uint FileVolume::move(uint din, byte *dstleaf,
                       uint wn, uint jn, byte *srcleaf)
 {

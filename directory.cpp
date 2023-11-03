@@ -233,6 +233,10 @@ uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
  * file named leafnm whose current parent is pn into this directory.;;
  */
 
+/// @brief Moves the given file to this directory.
+/// @param pn Parent directory inode.
+/// @param leafnm Name of the file being moved.
+/// @return Presumably a status code?
 uint Directory::moveFile(uint pn, byte *leafnm)
 {
   return TODO("Directory::moveFile");
