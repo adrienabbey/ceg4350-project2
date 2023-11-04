@@ -392,8 +392,15 @@ void doInodeStr(Arg *a)
   char *filePath = (char *)a[0].s;
   uint fileInode = findFile(filePath);
 
-  // Print the inode:
-  fv->inodes.show(fileInode);
+  // Print the inode, if it exists:
+  if (fileInode > 0)
+  {
+    fv->inodes.show(fileInode);
+  }
+  else
+  {
+    printf("%s\n", "Invalid path.");
+  }
 }
 
 /// @brief Create a directory with the given name in the current local
@@ -520,8 +527,7 @@ void doMv(Arg *a)
     {
       // Destination is a folder.
       // Move the source file/folder to the destination folder:
-      std::cout << "  Moving to a folder." << std::endl;
-      Directory *destinationFolder = new Directory(fv, mvFromInode, 1);
+      Directory *destinationFolder = new Directory(fv, mvToInode, 1);
       destinationFolder->moveFile(wd->nInode, (byte *)a[0].s);
     }
     else
@@ -535,8 +541,8 @@ void doMv(Arg *a)
   {
     // Destination does not exist.
     // Rename the source file/folder to the destination file/folder:
-    std::cout << "  Moving to rename." << std::endl;
-    wd->moveFile(wd->nInode, (byte *)a[1].s);
+    wd->deleteFile((byte *)a[0].s, 0);
+    wd->addLeafName((byte *)a[1].s, mvFromInode);
   }
 }
 
