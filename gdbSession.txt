@@ -1,0 +1,241 @@
+Script started on 2023-11-04 15:38:59-04:00 [TERM="xterm-256color" TTY="/dev/pts/7" COLUMNS="108" LINES="29"]
+[?2004h]0;sevriem@DESKTOP-6MJBQ2G: ~/git/ceg4350-project2[01;32msevriem@DESKTOP-6MJBQ2G[00m:[01;34m~/git/ceg4350-project2[00m$ make
+[?2004lg++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c simdisk.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c bitvector.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c directory.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c file.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c inodes.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c volume.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c mount.cpp
+g++ -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses -c shell.cpp
+g++ -o P2 -g -Wall -ansi -pedantic -Wno-write-strings -Wno-parentheses simdisk.o bitvector.o directory.o file.o inodes.o volume.o mount.o shell.o
+[?2004h]0;sevriem@DESKTOP-6MJBQ2G: ~/git/ceg4350-project2[01;32msevriem@DESKTOP-6MJBQ2G[00m:[01;34m~/git/ceg4350-project2[00m$ .[Kgdb P2
+[?2004l[35;1mGNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1[m
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from [32mP2[m...
+[?2004h(gdb) break shell:[K.cpp:723
+[?2004lBreakpoint 1 at [34m0x757d[m: file [32mshell.cpp[m, line 723.
+[?2004h(gdb) r
+[?2004lStarting program: [32m/home/sevriem/git/ceg4350-project2/P2[m 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "[32m/lib/x86_64-linux-gnu/libthread_db.so.1[m".
+The shell has only the following cmds:
+	cd	s
+	cp	ss
+	echo	ssss
+	inode	u
+	inode	s
+	ls	
+	ls	s
+	lslong	
+	mkdir	s
+	mkdisk	s
+	mkfs	s
+	mount	us
+	mount	
+	mv	ss
+	rddisk	su
+	rmdir	s
+	rm	s
+	pwd	
+	q	
+	quit	
+	umount	u
+	wrdisk	sus
+Start with ! to invoke a Unix shell cmd
+sh33% mkfs D2
+cmd [mkfs D2]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "mkfs") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) break shell.cpp:74
+[?2004lBreakpoint 2 at [34m0x555555559e75[m: file [32mshell.cpp[m, line 74.
+[?2004h(gdb) n
+[?2004l724	  [01;34mif[m [31m([mk [31m>=[m [35m0[m[31m)[m
+[?2004h[?2004l[?2004h(gdb) 
+[?2004l725	    [01minvokeCmd[m[31m([mk[31m,[m arg[31m);[m
+[?2004h[?2004l[?2004h(gdb) 
+[?2004l
+Breakpoint 2, [33mmkSimDisk[m ([36mname[m=0x7fffffffd985 "D2") at [32mshell.cpp[m:74
+74	  [01;34mif[m [31m([msimDisk[31m->[mnSectorsPerDisk [31m==[m [35m0[m[31m)[m
+[?2004h[?2004l[?2004h(gdb) break simdisk.cpp:111
+[?2004lBreakpoint 3 at [34m0x555555556b5f[m: file [32msimdisk.cpp[m, line 112.
+[?2004h(gdb) c
+[?2004lContinuing.
+make33fv() = 0x5555555749f0, Name == D2, Disk# == 3
+sh33% p diskName
+cmd [p diskName]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "p") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) cbreak simdisk.cpp:111[C[C[C[C[C[Cc[K[Kp diskName
+[?2004lNo symbol "diskName" in current context.
+[?2004h(gdb) mkfs D2[K[K[K[K[K[K[Kr
+[?2004l[?2004hThe program being debugged has been started already.
+Start it from the beginning? (y or n) n
+[?2004lProgram not restarted.
+[?2004h(gdb) c
+[?2004lContinuing.
+The shell has only the following cmds:
+	cd	s
+	cp	ss
+	echo	ssss
+	inode	u
+	inode	s
+	ls	
+	ls	s
+	lslong	
+	mkdir	s
+	mkdisk	s
+	mkfs	s
+	mount	us
+	mount	
+	mv	ss
+	rddisk	su
+	rmdir	s
+	rm	s
+	pwd	
+	q	
+	quit	
+	umount	u
+	wrdisk	sus
+Start with ! to invoke a Unix shell cmd
+sh33% mkfs D2
+cmd [mkfs D2]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "mkfs") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+
+Breakpoint 3, [33mSimDisk::SimDisk[m ([36mthis[m=0x555555575030, [36mdiskName[m=0x7fffffffd985 "D2", [36mdiskNumber[m=256) at [32msimdisk.cpp[m:112
+112	[31m}[m
+[?2004h[?2004l[?2004h(gdb) s
+[?2004l
+Breakpoint 2, [33mmkSimDisk[m ([36mname[m=0x7fffffffd985 "D2") at [32mshell.cpp[m:74
+74	  [01;34mif[m [31m([msimDisk[31m->[mnSectorsPerDisk [31m==[m [35m0[m[31m)[m
+[?2004h[?2004l[?2004h(gdb) s
+[?2004l80	  [01;34mreturn[m simDisk[31m;[m
+[?2004h[?2004l[?2004h(gdb) s
+[?2004l81	[31m}[m
+[?2004h[?2004l[?2004h(gdb) p diskName
+[?2004lNo symbol "diskName" in current context.
+[?2004h(gdb) break simdisk.cpp:111
+[?2004lNote: breakpoint 3 also set at pc [34m0x555555556b5f[m.
+Breakpoint 4 at [34m0x555555556b5f[m: file [32msimdisk.cpp[m, line 112.
+[?2004h(gdb) c
+[?2004lContinuing.
+make33fv() = 0x555555575060, Name == D2, Disk# == 3
+sh33% mkfs D1
+cmd [mkfs D1]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "mkfs") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+
+Breakpoint 3, [33mSimDisk::SimDisk[m ([36mthis[m=0x555555575590, [36mdiskName[m=0x7fffffffd985 "D1", [36mdiskNumber[m=256) at [32msimdisk.cpp[m:112
+112	[31m}[m
+[?2004h[?2004l[?2004h(gdb) p diskName
+[?2004l$1 = (byte *[36m[m) [34m0x7fffffffd985[m "D1"
+[?2004h(gdb) wr[K[Kc
+[?2004lContinuing.
+
+Breakpoint 2, [33mmkSimDisk[m ([36mname[m=0x7fffffffd985 "D1") at [32mshell.cpp[m:74
+74	  [01;34mif[m [31m([msimDisk[31m->[mnSectorsPerDisk [31m==[m [35m0[m[31m)[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+make33fv() = 0x5555555757d0, Name == D1, Disk# == 2
+sh33% wrdisk D1 100 test
+cmd [wrdisk D1 100 test]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "wrdisk") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+
+Breakpoint 3, [33mSimDisk::SimDisk[m ([36mthis[m=0x555555576310, [36mdiskName[m=0x7fffffffd987 "D1", [36mdiskNumber[m=256) at [32msimdisk.cpp[m:112
+112	[31m}[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+
+Breakpoint 2, [33mmkSimDisk[m ([36mname[m=0x7fffffffd987 "D1") at [32mshell.cpp[m:74
+74	  [01;34mif[m [31m([msimDisk[31m->[mnSectorsPerDisk [31m==[m [35m0[m[31m)[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+write433disk(100, test...) == 512 to Disk D1
+sh33% rddisk D1 100
+cmd [rddisk D1 100]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "rddisk") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+
+Breakpoint 3, [33mSimDisk::SimDisk[m ([36mthis[m=0x555555576310, [36mdiskName[m=0x7fffffffd987 "D1", [36mdiskNumber[m=256) at [32msimdisk.cpp[m:112
+112	[31m}[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+
+Breakpoint 2, [33mmkSimDisk[m ([36mname[m=0x7fffffffd987 "D1") at [32mshell.cpp[m:74
+74	  [01;34mif[m [31m([msimDisk[31m->[mnSectorsPerDisk [31m==[m [35m0[m[31m)[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+read433disk(100, testtestte...) = 512 from Disk D1
+sh33% exit
+cmd [exit]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "exit") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) ex[K[Kex[K[Kc
+[?2004lContinuing.
+The shell has only the following cmds:
+	cd	s
+	cp	ss
+	echo	ssss
+	inode	u
+	inode	s
+	ls	
+	ls	s
+	lslong	
+	mkdir	s
+	mkdisk	s
+	mkfs	s
+	mount	us
+	mount	
+	mv	ss
+	rddisk	su
+	rmdir	s
+	rm	s
+	pwd	
+	q	
+	quit	
+	umount	u
+	wrdisk	sus
+Start with ! to invoke a Unix shell cmd
+sh33% q
+cmd [q]
+
+Breakpoint 1, [33mdoCommand[m ([36mbuf[m=0x7fffffffd980 "q") at [32mshell.cpp[m:723
+723	  [32mint[m k [31m=[m [01mfindCmd[m[31m([mbuf[31m,[m types[31m);[m
+[?2004h[?2004l[?2004h(gdb) c
+[?2004lContinuing.
+[Inferior 1 (process 15498) exited normally]
+[?2004h[?2004l[?2004h(gdb) exit
+[?2004l[?2004h]0;sevriem@DESKTOP-6MJBQ2G: ~/git/ceg4350-project2[01;32msevriem@DESKTOP-6MJBQ2G[00m:[01;34m~/git/ceg4350-project2[00m$ exit
+[?2004lexit
+
+Script done on 2023-11-04 15:41:44-04:00 [COMMAND_EXIT_CODE="0"]
