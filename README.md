@@ -32,7 +32,7 @@
         - `fs33% inode 4`: print the contents of inode numbered 4, if it exists.
     - Note: there is a second `diskparams.dat` file to test `stdTestScriptP2.txt` with.
     1. [ ] Much of the code provided by this project is functional but not robust.  Improve the code so that it doesn't crash with invalid inputs.  Describe these changes in `improvements.txt`.  Later project phases will replace `TODO` elements of the code with working code.
-    2. [ ] Nested Directories: Project 2 involves working with a single volume at a time, no mounting involved.  Implement hierarchical directories, namely the `mkdir`, `rmdir` and `chdir` commands.  Note that this means building from the root directory.
+    2. [x] Nested Directories: Project 2 involves working with a single volume at a time, no mounting involved.  Implement hierarchical directories, namely the `mkdir`, `rmdir` and `chdir` commands.  Note that this means building from the root directory.
     3. Linux's `mv` command takes two arguments, which either:
         1. if the last argument is an existing directory, move the specified files or directories in the previous arguments from their current location to this directory, or
         2. renames the first argument or directory into the second argument.
@@ -54,7 +54,7 @@
 - [ ] Improvements are correctly implemented and robust (5 pts)
 - [x] `mkdir dnm` (10 pts)
 - [x] `chdir pnm` (10 pts)
-- [ ] `rmdir dnm` (10 pts)
+- [x] `rmdir dnm` (10 pts)
 - [x] `ls dnm` (10 pts)
 - [x] `mv da db` (where `db` may not exist, but if it does, it's a file) (5 pts)
 - [x] `mv da db` (where `db` exists, and is a directory; `da` may or may not exist inside `db`) (5 pts)
