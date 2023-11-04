@@ -241,21 +241,19 @@ uint Directory::deleteFile(byte *leafnm, uint freeInodeFlag)
  */
 
 /// @brief Moves the given file belonging to the given directory to this
-/// directory.
+/// directory.  This does NOT rename the file, as it only takes a single file
+/// name!
 /// @param pn Inode of the parent directory of the file being moved from.
 /// @param leafnm File name of the file being moved to this directory.
 /// @return Returns the inode of the moved file if successful, 0 if
 /// unsuccessful.
 uint Directory::moveFile(uint pn, byte *leafnm)
 {
-  printf("%s\n", "  TEST: Moving a file!");
   // Create a reference to the source directory:
   Directory *sourceDir = new Directory(fv, pn, 1);
-  printf("%s%d\n", "  Source dir inode is ", sourceDir->nInode);
 
   // Add the file to this directory.
   addLeafName(leafnm, sourceDir->iNumberOf(leafnm));
-  printf("%s%d%s\n", "  Adding ", sourceDir->iNumberOf(leafnm), " to this directory.");
 
   // "Delete" the file from the old parent directory, without freeing the file.
   sourceDir->deleteFile(leafnm, 0);
