@@ -2,7 +2,7 @@
  * shell.C -- CEG433 File Sys Project shell
  * pmateti@wright.edu
  *
- * Modified for Project 1 of CEG-4350
+ * Modified for Project 2 of CEG-4350
  * by Adrien Abbey, Sept. 2023
  */
 

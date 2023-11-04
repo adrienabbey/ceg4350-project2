@@ -1,6 +1,8 @@
 /*
  * directory.C of CEG 433/633 File Sys Project
  * pmateti@wright.edu
+ * 
+ * Additional comments added by Adrien Abbey for Project 2, Oct. 2023.
  */
 
 #include "fs33types.hpp"
