@@ -18,7 +18,7 @@
     4. et a breakpoint at the bottom of the `SimDisk` constructor.  Examine the value of `diskName`.
     5. Type in a `wrdisk` request, followed by a `rddisk` request.  Verify that the results match.
     6. End the script, saving it as `gdbSession.txt`.
-3. [ ] Additions and Improvements
+3. [x] Additions and Improvements
     - The following commands are already functional:
         - `fs33% mkfs disknm`: creates an empty file volume on the simulated disk named `disknm.dsk` (which must be defined in `diskparams.dat`).  
             - The `maxfnm`, number of inodes, and the inode height are specified in the provided `diskparams.dat` file, which contains multiple possible `disknm` definitions.  
@@ -51,7 +51,7 @@
 - [x] Program successfully navigates `testscript.txt` (5 pts)
 - [x] `answers.txt` (5 pts)
 - [x] `gdbSession.txt` (10 pts)
-- [ ] Improvements are correctly implemented and robust (5 pts)
+- [x] Improvements are correctly implemented and robust (5 pts)
 - [x] `mkdir dnm` (10 pts)
 - [x] `chdir pnm` (10 pts)
 - [x] `rmdir dnm` (10 pts)
