@@ -526,8 +526,18 @@ void doMv(Arg *a)
     if (fv->inodes.getType(mvToInode) == 2)
     {
       // Destination is a folder.
-      // Move the source file/folder to the destination folder:
       Directory *destinationFolder = new Directory(fv, mvToInode, 1);
+
+      // Verify that the destination folder does NOT already have a file of the
+      // same name:
+      if (destinationFolder->iNumberOf((byte *)a[0].s) > 0)
+      {
+        // The destination file already exists, abort
+        printf("%s\n", "Destination file already exists.");
+        return;
+      }
+
+      // Move the source file/folder to the destination folder:
       destinationFolder->moveFile(wd->nInode, (byte *)a[0].s);
     }
     else
