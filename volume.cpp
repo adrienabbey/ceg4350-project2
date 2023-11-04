@@ -217,7 +217,8 @@ uint FileVolume::copy33file(byte *srcleaf, byte *dstleaf)
   return nBytesWritten;
 }
 
-/// @brief Moves a file or folder to the destination location?
+/// @brief Moves a file or folder.  This differs from the Directory::moveFile 
+/// method, as it can rename a file while moving it?
 /// @param din Destination directory inode number?
 /// @param dstleaf Destination file name.
 /// @param wn 
