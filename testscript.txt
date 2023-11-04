@@ -22,11 +22,13 @@ cp @ReadMe.txt ReadMe.txt
 inode ReadMe.txt
 mv ReadMe.txt newFile.txt
 ls
-mv ReadMe.txt test1
+mv newFile.txt test1
 ls
 cd /test1/
 ls
-cp newFile.txt copyFile.txt
+cd /
+cp @ReadMe.txt newFile.txt
+cp @ReadMe.txt copyFile.txt
 ls
 mv newFile.txt copyFile.txt
 ls
