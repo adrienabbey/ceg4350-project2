@@ -1,0 +1,11 @@
+I feel like I'm missing something critical here, as I've had trouble finding 
+existing code that wasn't already relatively robust.  This may be due to how I 
+made a conscious effort to try to keep most of my changes to shell.cpp, so most 
+of the edge cases I thought of were dealt with in the code I wrote.
+
+Of particular note was a situation where this "functional but not robust" code 
+was unexpectedly robust.  When working on my doChDir() implementation, I used 
+Directory constructors with known-bad parent directory references, expecting it 
+to mangle `..` references.  I eventually realized that the Directory 
+constructor won't change an existing parent reference, which I started to abuse 
+without restraint.
