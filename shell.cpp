@@ -314,67 +314,54 @@ void doRm(Arg *a)
   // within the root directory.  I'm modifying it to also work with non-root
   // files/directories.
 
-  // Find the file/folder:
-  // char *filePath = a[0].s;
-  // uint fileInode = findFile(filePath);
+  uint fileCount;
 
-  // // If a file is found:
-  // if (fileInode > 0)
-  // {
-  //   // If this is a directory:
-  //   if (fv->inodes.getType(fileInode) == 2)
-  //   {
-  //     // Check if the directory is empty:
-  //     Directory *currentDir = new Directory(fv, fileInode, fileInode);
+  // Check if the given file is a directory:
+  if (fv->inodes.getType(wd->iNumberOf((byte *)a[0].s)) == 2)
+  {
+    // Check if the directory has any contents:
+    Directory *currentDir = new Directory(fv, wd->iNumberOf((byte *)a[0].s), 1);
 
-  //     // NOTE: ls returns the number of files in a given directory!
-  //     // Unfortunately, it also prints out stuff.  I could make lsPrivate
-  //     // public, but I have a  feeling that'd be bad.
-  //     // Solution: redirect stdout briefly?
+    // NOTE: ls returns the number of files in a given directory!
+    // Unfortunately, it also prints out stuff.  I could make lsPrivate
+    // public, but I have a  feeling that'd be bad.
+    // Solution: redirect stdout briefly to suppress that printing.
 
-  //     // Redirect stdout to a temporary file:
-  //     int backupStdout = dup(STDOUT_FILENO);
-  //     int tempOut = open("/dev/null", O_WRONLY); // /dev/null exists to consume
-  //     dup2(tempOut, STDOUT_FILENO);
+    // Redirect stdout to a temporary file:
+    int backupStdout = dup(STDOUT_FILENO);
+    int tempOut = open("/dev/null", O_WRONLY); // /dev/null exists to consume
+    dup2(tempOut, STDOUT_FILENO);
 
-  //     // Get the number of files in the given folder:
-  //     uint fileCount = currentDir->ls();
+    // Get the number of files in the given folder:
+    fileCount = currentDir->ls();
 
-  //     // If there are files in the folder:
-  //     if (fileCount > 0)
-  //     {
-  //       // TODO: check for -fr flag.
-  //       // Abort:
-  //       printf("%s", "Directory not empty.");
+    // If there are files in the folder:
+    if (fileCount > 0)
+    {
+      // Restore stdin and return:
+      dup2(backupStdout, STDOUT_FILENO);
+      close(backupStdout);
 
-  //       // Restore stdin and return:
-  //       dup2(backupStdout, STDOUT_FILENO);
-  //       close(backupStdout);
-  //       return;
-  //     }
+      // Abort:
+      printf("%s%d%s\n", "Directory not empty: contains ", fileCount, " files.");
 
-  //     // Restore stdout:
-  //     dup2(backupStdout, STDOUT_FILENO);
-  //     close(backupStdout);
-  //   }
+      return;
+    }
 
-  //   // Get the parent directory of the given file:
+    // Restore stdout:
+    dup2(backupStdout, STDOUT_FILENO);
+    close(backupStdout);
 
-  //   // Use the parent to delete the given file:
-  //   uint in = parentDir->deleteFile(parentDir->nameOf(fileInode), 1);
-
-  //   // Preserve original messaging:
-  //   printf("rm %s returns %d.\n", a[0].s, in);
-  // }
-  // else
-  // {
-  //   // Invalid path.
-  //   printf("%s", "Invalid path.");
-  // }
-
-  // uint in = wd->fv->deleteFile((byte *)a[0].s);
-  uint in = wd->deleteFile((byte *)a[0].s, 1);
-  printf("rm %s returns %d.\n", a[0].s, in);
+    // Delete the folder:
+    printf("%s%d%s\n", "Deleting empty directory: contains ", fileCount, " files in it.");
+    wd->deleteFile((byte *)a[0].s, 1);
+  }
+  else
+  {
+    // Delete the given file in the current working directory:
+    uint in = wd->deleteFile((byte *)a[0].s, 1);
+    printf("rm %s returns %d.\n", a[0].s, in);
+  }
 }
 
 /// @brief Prints out the contents of the given inode number, if any.
