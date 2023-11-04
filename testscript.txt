@@ -10,7 +10,17 @@ ls
 cd /
 cd /test1/test2
 pwd
-cd ..
+cd ../..
+mkdir test4
+cd test4
+mkdir test5
+cd /
+rmdir test4
+cd test4
+rmdir test5
+cd /
+rm test4
+ls
 ls /test/test2
 ls /test1/test2
 ls ..
@@ -18,7 +28,7 @@ inode 1
 inode /test/
 inode /test1/test2/
 cd /
-cp @ReadMe.txt ReadMe.txt
+cp @diskParams.dat ReadMe.txt
 inode ReadMe.txt
 mv ReadMe.txt newFile.txt
 ls
@@ -27,8 +37,8 @@ ls
 cd /test1/
 ls
 cd /
-cp @ReadMe.txt newFile.txt
-cp @ReadMe.txt copyFile.txt
+cp @diskParams.dat newFile.txt
+cp @diskParams.dat copyFile.txt
 ls
 mv newFile.txt copyFile.txt
 mv newFile.txt test2
