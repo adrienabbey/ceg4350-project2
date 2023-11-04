@@ -31,5 +31,11 @@ cp @ReadMe.txt newFile.txt
 cp @ReadMe.txt copyFile.txt
 ls
 mv newFile.txt copyFile.txt
+mv newFile.txt test2
+cd test2
+cd /
+mv copyFile.txt newFile.txt
+mv newFile.txt test2
+cd test2
 ls
 q
