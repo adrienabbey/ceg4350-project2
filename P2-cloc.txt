@@ -1,14 +1,13 @@
-      19 text files.
-classified 19 files      19 unique files.                              
-       8 files ignored.
+      10 text files.
+classified 10 files      10 unique files.                              
+       0 files ignored.
 
-github.com/AlDanial/cloc v 1.90  T=0.01 s (1296.7 files/s, 342206.9 lines/s)
+github.com/AlDanial/cloc v 1.90  T=0.01 s (1280.9 files/s, 363519.2 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 C++                              9            363            553           1635
 C/C++ Header                     1             46             26            215
-Markdown                         1              1              0             64
 -------------------------------------------------------------------------------
-SUM:                            11            410            579           1914
+SUM:                            10            409            579           1850
 -------------------------------------------------------------------------------
